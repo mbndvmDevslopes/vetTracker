@@ -19,7 +19,7 @@ import { validateWeight } from "../utils/validation";
 import { SubmitBtn } from "../Components/SubmitBtn";
 import { useCurrentUser } from "../providers/CurrentUserProvider";
 import { useConditions } from "../providers/ConditionsProvider";
-import { capitalize } from "../utils/transformations";
+import { capitalize, capitalizeAndTrim } from "../utils/transformations";
 import {validateDate} from '../utils/transformations'
 import { number } from "prop-types";
 
@@ -121,20 +121,30 @@ const getUserId = () => {
 export const action: ActionFunction = async ({ request, params }) => {
   const formData = await request.formData();
   const data = Object.fromEntries(formData);
-
+  capitalizeAndTrim(data)
   const { id } = getUserId();
-  const dogData = {
-    sex: capitalize(formData.get('sex')).trim(),
-    name: capitalize(formData.get('name')).trim(),
-    breed: capitalize(formData.get('breed')).trim(),
+   const dogData:Dog = {
+    sex: capitalizeAndTrim(formData.get('sex')?.toString()),
+    name: capitalizeAndTrim(formData.get('name')?.toString()),
+    breed: capitalizeAndTrim(formData.get('breed')?.toString()),
     birthDate: formData.get('birthDate'),
     weight: parseFloat(formData.get('weight')),
     dateVisited: formData.get('dateVisited'),
     notes: formData.get('notes').trim(),
     vetId: id,
+    ownerName: capitalizeAndTrim(formData.get('ownerName')?.toString()),
+  }; 
+/* const dogData:Dog = {
+  sex: capitalizeAndTrim(formData.get('sex')),
+  name: capitalizeAndTrim(formData.get('name')),
+  breed: capitalizeAndTrim(formData.get('breed')),
+  birthDate: formData.get('birthDate'),
+    weight: parseFloat(formData.get('weight')),
+    dateVisited: formData.get('dateVisited'),
+    notes: formData.get('notes').trim(),
+    vetId: id,
     ownerName: capitalize(formData.get('ownerName')).trim(),
-  };
-
+} */
   const selectedConditionIdsString = formData.getAll('condition[]');
   const formConditions = convertFormIdsToNumbers(selectedConditionIdsString);
 
@@ -159,6 +169,9 @@ export const action: ActionFunction = async ({ request, params }) => {
   }*/
 
   const dogId = parseInt(params.id);
+
+  
+    
   try {
     /* await axios.patch(`http://localhost:3000/dogs?id=${params.id}`, dogData); */
     await axios.patch(`http://localhost:3000/dogs/${params.id}`, dogData);
@@ -176,6 +189,7 @@ const convertFormIdsToNumbers = (strIds: string[]) =>
   strIds.map((condition: string) => {
     return parseInt(condition);
   });
+  
 export const EditDog: React.FC = () => {
   /* const dog: Dog = useLoaderData() as Dog; */
   const navigate = useNavigate();
@@ -183,12 +197,12 @@ export const EditDog: React.FC = () => {
   const isSubmitting = navigation.state === 'submitting';
   const { conditions } = useConditions();
   /* const [conditions, setConditions] = useState<Condition[]>([]); */
-  const dog: Dog = useLoaderData().dog;
+  
+  const dog: Dog = useLoaderData().dog as Dog;
   const existingConditions: Condition[] = useLoaderData().existingConditions;
   const { conditions: allConditions } = useConditions();
   const [dogConditions, setDogConditions] = useState<Condition[]>([]);
 
-  console.log('existing conditions', existingConditions);
   useEffect(() => {
     // Filter conditions based on dogId and existing conditions
     const filteredConditions = allConditions?.filter((condition) =>

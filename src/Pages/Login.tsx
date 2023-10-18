@@ -1,28 +1,14 @@
 import {
-  Form,
-  redirect,
   Link,
-  ActionFunction,
   useNavigate,
 } from 'react-router-dom';
 import Wrapper from '../assets/Wrappers/RegisterPage';
 import Logo from '../Components/Logo';
-import { FormRow } from '../Components/FormRow';
-import { toast } from 'react-toastify';
-import { User } from '../Types';
 import { useCurrentUser } from '../providers/CurrentUserProvider';
 import { FormEvent, useState } from 'react';
 import { FormRowControlledInput } from '../Components/FormRowControlledInput';
-import { addUserToLocalStorage } from '../utils/LocalStorageUser';
+import { toast } from 'react-toastify';
 
-export const action: ActionFunction = async ({ request }) => {
-  /* const formData = await request.formData();
-
-  const data = Object.fromEntries(formData);
-
-  const { email, password } = data; */
-  return null;
-};
 
 const Login = () => {
   const { login, isLoading } = useCurrentUser();

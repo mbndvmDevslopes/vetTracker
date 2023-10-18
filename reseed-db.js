@@ -223,86 +223,69 @@ const db = {
     {
       id: 2,
       conditionName: 'Atopy',
-      isActive: true,
     },
     {
       id: 3,
       conditionName: 'Osteoarthritis',
-      isActive: true,
     },
     {
       id: 4,
       conditionName: 'Pyoderma',
-      isActive: true,
     },
     {
       id: 5,
       conditionName: 'Osteochondritis Dissecans',
-      isActive: true,
     },
     {
       id: 6,
       conditionName: 'Diabetes Mellitus',
-      isActive: true,
     },
     {
       id: 7,
       conditionName: 'Hyperthyroidism',
-      isActive: true,
     },
     {
       id: 9,
       conditionName: 'Pancreatitis',
-      isActive: true,
     },
     {
       id: 10,
       conditionName: 'Obesity',
-      isActive: true,
     },
     {
       id: 11,
       conditionName: 'Fleas',
-      isActive: true,
     },
     {
       id: 12,
       conditionName: 'Ticks',
-      isActive: true,
     },
     {
       id: 13,
       conditionName: 'Roundworms',
-      isActive: true,
     },
     {
       id: 14,
       conditionName: 'Heartworm',
-      isActive: true,
     },
     {
       conditionName: 'Bordetella',
-      isActive: true,
       id: 15,
     },
     {
       conditionName: 'Kennel Cough',
-      isActive: true,
       id: 16,
     },
     {
       conditionName: 'Intestinal Foreign Body',
-      isActive: true,
       id: 19,
     },
     {
       conditionName: 'Bloat',
-      isActive: true,
       id: 20,
     },
     {
       conditionName: 'Tapeworms',
-      isActive: true,
       id: 21,
     },
   ],

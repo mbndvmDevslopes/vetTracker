@@ -4,7 +4,6 @@ const API_URL = 'http://localhost:3000';
 
 export const getUserData = async (userId: number) => {
   try {
-    /*    const response = await axios.get(`${API_URL}/veterinarians/${userId}`); */
     const response = await axios.get(`${API_URL}/users/${userId}`);
     return response.data;
   } catch (error) {
@@ -12,7 +11,16 @@ export const getUserData = async (userId: number) => {
     throw error;
   }
 };
-
+export const getUser = async (email: string) => {
+  try {
+    const response = await axios.get(`${API_URL}/users?email=${email}`);
+      if (response.status === 200) {
+       return response.data;
+      }
+  } catch (error) {
+    console.error('Error fetching user data:', error);
+  }
+};
 
 export const getConditions = async () => {
   try {

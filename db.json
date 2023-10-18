@@ -111,6 +111,20 @@
       "email": "mommy@gmail.com",
       "password": "cat",
       "id": 18
+    },
+    {
+      "name": "Cody",
+      "lastName": "Barter",
+      "email": "cody@gmail.com",
+      "password": "cody1234",
+      "id": 19
+    },
+    {
+      "name": "Homer",
+      "lastName": "Simpson",
+      "email": "homer@gmail.com",
+      "password": "dog",
+      "id": 20
     }
   ],
   "dogs": [
@@ -294,118 +308,109 @@
       "isActive": true,
       "ownerName": "Norma Johnson",
       "id": 26
+    },
+    {
+      "sex": "M",
+      "name": "Simpson",
+      "breed": "Dachshund",
+      "birthDate": "2019-09-23",
+      "weight": "15",
+      "dateVisited": "2023-09-30",
+      "notes": "Simpson presented with pruritis of 3 days duration.  Alopecia and erythema was observed at the tail base.  Flea dirt was combed from the fur",
+      "vetId": 19,
+      "isActive": true,
+      "ownerName": "Bart Eller",
+      "id": 27
     }
   ],
   "conditions": [
     {
       "id": 2,
-      "conditionName": "Atopy",
-      "isActive": true
+      "conditionName": "Atopy"
     },
     {
       "id": 3,
-      "conditionName": "Osteoarthritis",
-      "isActive": true
+      "conditionName": "Osteoarthritis"
     },
     {
       "id": 4,
-      "conditionName": "Pyoderma",
-      "isActive": true
+      "conditionName": "Pyoderma"
     },
     {
       "id": 5,
-      "conditionName": "Osteochondritis Dissecans",
-      "isActive": true
+      "conditionName": "Osteochondritis Dissecans"
     },
     {
       "id": 6,
-      "conditionName": "Diabetes Mellitus",
-      "isActive": true
+      "conditionName": "Diabetes Mellitus"
     },
     {
       "id": 7,
-      "conditionName": "Hyperthyroidism",
-      "isActive": true
+      "conditionName": "Hyperthyroidism"
     },
     {
       "id": 9,
-      "conditionName": "Pancreatitis",
-      "isActive": true
+      "conditionName": "Pancreatitis"
     },
     {
       "id": 10,
-      "conditionName": "Obesity",
-      "isActive": true
+      "conditionName": "Obesity"
     },
     {
       "id": 11,
-      "conditionName": "Fleas",
-      "isActive": true
+      "conditionName": "Fleas"
     },
     {
       "id": 12,
-      "conditionName": "Ticks",
-      "isActive": true
+      "conditionName": "Ticks"
     },
     {
       "id": 13,
-      "conditionName": "Roundworms",
-      "isActive": true
+      "conditionName": "Roundworms"
     },
     {
       "id": 14,
-      "conditionName": "Heartworm",
-      "isActive": true
+      "conditionName": "Heartworm"
     },
     {
       "conditionName": "Bordetella",
-      "isActive": true,
       "id": 15
     },
     {
-      "conditionName": "Kennel Cough",
-      "isActive": true,
-      "id": 16
-    },
-    {
       "conditionName": "Intestinal Foreign Body",
-      "isActive": true,
       "id": 19
     },
     {
       "conditionName": "Bloat",
-      "isActive": true,
       "id": 20
     },
     {
       "conditionName": "Tapeworms",
-      "isActive": true,
       "id": 21
     },
     {
       "conditionName": "Ccl Rupture",
-      "isActive": true,
       "id": 22
     },
     {
       "conditionName": "Kcs",
-      "isActive": true,
       "id": 23
     },
     {
       "conditionName": "Patellar Luxation",
-      "isActive": true,
       "id": 24
     },
     {
       "conditionName": "Proptosis",
-      "isActive": true,
       "id": 25
     },
     {
       "conditionName": "Vomiting",
-      "isActive": true,
       "id": 27
+    },
+    {
+      "conditionName": "Cystitis",
+      "id": 28
     }
   ],
   "dogsConditions": [
@@ -478,6 +483,11 @@
       "dogId": 5,
       "conditionId": 3,
       "id": 35
+    },
+    {
+      "dogId": 27,
+      "conditionId": 11,
+      "id": 36
     }
   ]
 }

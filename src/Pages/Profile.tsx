@@ -53,7 +53,6 @@ export const Profile: React.FC = () => {
     const { id } = user;
     try {
       const response = await axios.patch(
-        /* `http://localhost:3000/veterinarians/${id}`, */
         `http://localhost:3000/users/${id}`,
         amendedUser
       );
@@ -66,15 +65,6 @@ export const Profile: React.FC = () => {
       toast.error('There was an error updating the profile');
     }
   };
-
-  /*  useEffect(() => {
-    // Update local state when user data changes in context
-    setAmendedUser({
-      name: user.name,
-      lastName: user.lastName,
-      email: user.email,
-    });
-  }, [user]); */
 
   return (
     <Wrapper>

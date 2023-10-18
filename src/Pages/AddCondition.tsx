@@ -46,9 +46,9 @@ export const AddCondition = () => {
     try {
       const response = await axios.post("http://localhost:3000/conditions", {
         conditionName: newCondition.conditionName,
-        isActive: true,
+        /* isActive: true, */
       });
-      
+
       await Promise.resolve(response.data);
 
       toast.success("Condition added successfully");

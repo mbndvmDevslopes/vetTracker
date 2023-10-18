@@ -1,6 +1,6 @@
 import "./App.css";
 
-import { createBrowserRouter, Params, RouterProvider } from "react-router-dom";
+import { createBrowserRouter,  RouterProvider } from "react-router-dom";
 
 import Register from "./Pages/Register";
 import Login from "./Pages/Login";
@@ -16,14 +16,12 @@ import { AllConditions } from "./Pages/AllConditions";
 import { EditDog } from "./Pages/EditDog";
 
 import { action as registerAction } from "./Pages/Register";
-import { action as loginAction } from "./Pages/Login";
 import { action as editDogAction } from "./Pages/EditDog";
 import { loader as editDogLoader } from "./Pages/EditDog";
 import { AddCondition } from "./Pages/AddCondition";
 import { useState } from "react";
-import { Conditions, DogType, User } from "./Types";
+import { Conditions } from "./Types";
 import { DogsContainer } from "./Components/DogsContainer";
-import Search from "./Components/Search";
 
 export const checkDefaultTheme = () => {
   const darkThemeString = localStorage.getItem("darkTheme") === "true";
@@ -55,7 +53,7 @@ function App() {
         {
           path: "login",
           element: <Login />,
-          action: loginAction,
+         /*  action: loginAction, */
         },
         {
           path: "dashboard",
