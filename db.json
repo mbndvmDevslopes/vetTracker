@@ -445,24 +445,9 @@
       "id": 22
     },
     {
-      "dogId": 16,
-      "conditionId": 13,
-      "id": 25
-    },
-    {
-      "dogId": 16,
-      "conditionId": 14,
-      "id": 26
-    },
-    {
       "dogId": 6,
       "conditionId": 3,
       "id": 27
-    },
-    {
-      "dogId": 5,
-      "conditionId": 4,
-      "id": 28
     },
     {
       "dogId": 22,
@@ -488,6 +473,11 @@
       "dogId": 25,
       "conditionId": 12,
       "id": 34
+    },
+    {
+      "dogId": 5,
+      "conditionId": 3,
+      "id": 35
     }
   ]
 }
