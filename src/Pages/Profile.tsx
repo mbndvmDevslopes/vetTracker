@@ -3,11 +3,9 @@ import Wrapper from '../assets/Wrappers/DashboardFormPage';
 import { useNavigation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import axios from 'axios';
-import { useCurrentUser } from '../providers/CurrentUserProvider';
-import { User } from '../Types';
+import { useCurrentUser } from '../providers/useCurrentUser';
 import { FormEvent, useState } from 'react';
-import { retrieveCurrentUser, removeUserFromLocalStorage, addUserToLocalStorage } from '../utils/LocalStorageUser';
-import { capitalize } from '../utils/transformations';
+import { capitalize} from '../utils/transformations';
 
 type AmendedUser = {
   name: string;
@@ -27,7 +25,7 @@ export const Profile: React.FC = () => {
     email: user!.email,
   });
 
-  const updateUserInLocalStorage = (updatedUserData) => {
+  const updateUserInLocalStorage = (updatedUserData:AmendedUser) => {
     const currentUser = user;
     if (currentUser) {
       const updatedUser = { ...currentUser, ...updatedUserData };
@@ -50,7 +48,7 @@ export const Profile: React.FC = () => {
   };
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const { id } = user;
+    const  id  = user?.id;
     try {
       const response = await axios.patch(
         `http://localhost:3000/users/${id}`,

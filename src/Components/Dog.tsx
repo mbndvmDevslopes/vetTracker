@@ -1,28 +1,24 @@
-import { FaLocationArrow, FaBriefcase, FaCalendarAlt } from 'react-icons/fa';
-import { Link, Form, useNavigate } from 'react-router-dom';
-import Wrapper from '../assets/Wrappers/Dog';
-import { DogInfo } from './DogInfo';
-import { DogType } from '../Types';
-import axios from 'axios';
-import day from 'dayjs';
-import advancedFormat from 'dayjs/plugin/advancedFormat';
-import { useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
-import { Conditions } from '../Types';
-import { useAllDogsContext } from '../Pages/AllDogs';
-import { useCurrentUser } from '../providers/CurrentUserProvider';
+import { Link, useNavigate } from "react-router-dom";
+import Wrapper from "../assets/Wrappers/Dog";
+import { DogInfo } from "./DogInfo";
+import { DogType } from "../Types";
+import axios from "axios";
+import day from "dayjs";
+import advancedFormat from "dayjs/plugin/advancedFormat";
+import { useState } from "react";
+import { toast } from "react-toastify";
+import { Conditions } from "../Types";
+import { useAllDogsContext } from "../Pages/AllDogs";
+import { useCurrentUser } from "../providers/useCurrentUser";
 day.extend(advancedFormat);
 
-export const Dog = ({
+/* export const Dog = ({ */
+export const Dog: React.FC<DogType> = ({
   id,
   vetId,
-  sex,
   name,
   breed,
-  birthDate,
-  weight,
   dateVisited,
-  notes,
   ownerName,
   isActive: initialIsActive,
 }) => {
@@ -47,17 +43,17 @@ export const Dog = ({
     try {
       await deleteDogConditions(id);
       await axios.delete(`http://localhost:3000/dogs/${id}`);
-      toast.success('Dog successfully Deleted');
+      toast.success("Dog successfully Deleted");
       reFetchAllDogs(vetId);
       /* removeDog(id); */
-      navigate('/dashboard/all-dogs');
+      navigate("/dashboard/all-dogs");
       /*  history.push('/dashboard/add-dog'); */
     } catch (error) {
-      toast.error('Error deleting dog');
+      toast.error("Error deleting dog");
     }
   };
 
-  const deleteDogConditions = async (id) => {
+  const deleteDogConditions = async (id: number) => {
     try {
       // Fetch all dogsConditions records with the given dogId
       const response = await axios.get(
@@ -93,21 +89,20 @@ export const Dog = ({
         </div>
       </header>
       <div className="content">
-
         <div className="content-center">
           {/* <DogInfo icon={weight} text={sex} /> */}
           <DogInfo icon="Visited:" text={dateVisited} />
           <DogInfo icon="Owner:" text={ownerName} />
-          <div className={isActive ? `status true` : 'status false'}>
-            {isActive ? 'Active' : 'Not Active'}
+          <div className={isActive ? `status true` : "status false"}>
+            {isActive ? "Active" : "Not Active"}
           </div>
         </div>
         <footer className="actions">
           <Link to={`../edit-dog/${id}`} className="btn edit-btn">
             Edit
-          </Link>{' '}
+          </Link>{" "}
           <button type="button" className="btn edit-btn" onClick={toggleActive}>
-            {isActive ? 'Set inactive' : 'Set as active'}
+            {isActive ? "Set inactive" : "Set as active"}
           </button>
           <button
             type="submit"
@@ -115,7 +110,7 @@ export const Dog = ({
             disabled={isLoading}
             onClick={deleteDog}
           >
-            {isLoading ? 'Loading...' : 'Delete Dog'}
+            {isLoading ? "Loading..." : "Delete Dog"}
           </button>
         </footer>
       </div>

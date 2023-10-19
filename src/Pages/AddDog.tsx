@@ -6,8 +6,8 @@ import axios from "axios";
 import { validateWeight } from "../utils/validation";
 import { SubmitBtn } from "../Components/SubmitBtn";
 
-import { useConditions } from "../providers/ConditionsProvider";
-import { useCurrentUser } from "../providers/CurrentUserProvider";
+import { useConditions } from "../providers/useConditions";
+import { useCurrentUser } from "../providers/useCurrentUser";
 import { FormRowControlledInput } from "../Components/FormRowControlledInput";
 import { capitalize } from "../utils/transformations";
 

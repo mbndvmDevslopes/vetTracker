@@ -2,7 +2,7 @@ import { Link, redirect } from "react-router-dom";
 import Wrapper from "../assets/Wrappers/Condition";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { useConditions } from "../providers/ConditionsProvider";
+import { useConditions } from "../providers/useConditions";
 
 export const Condition = ({
   id,

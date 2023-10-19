@@ -1,5 +1,5 @@
 import { ConditionsContainer } from "../Components/ConditionsContainer";
-import { useConditions } from "../providers/ConditionsProvider";
+import { useConditions } from "../providers/useConditions";
 import SearchConditions from "../Components/SearchConditions";
 import { Conditions } from "../Types";
 import { useEffect} from "react";

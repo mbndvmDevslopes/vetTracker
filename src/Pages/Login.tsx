@@ -4,7 +4,7 @@ import {
 } from 'react-router-dom';
 import Wrapper from '../assets/Wrappers/RegisterPage';
 import Logo from '../Components/Logo';
-import { useCurrentUser } from '../providers/CurrentUserProvider';
+import { useCurrentUser } from '../providers/useCurrentUser';
 import { FormEvent, useState } from 'react';
 import { FormRowControlledInput } from '../Components/FormRowControlledInput';
 import { toast } from 'react-toastify';

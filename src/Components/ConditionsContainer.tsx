@@ -1,7 +1,7 @@
 
 import Wrapper from '../assets/Wrappers/DogsContainer';
 
-import { useConditions } from '../providers/ConditionsProvider';
+import { useConditions } from '../providers/useConditions';
 import { Condition } from './Condition';
 import { Conditions  } from '../Types';
 

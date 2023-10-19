@@ -1,5 +1,5 @@
 import { useDashboardContext } from "../Pages/DashboardLayout";
-import { useCurrentUser } from "../providers/CurrentUserProvider";
+import { useCurrentUser } from "../providers/useCurrentUser";
 import { links } from "../utils/links";
 import { NavLink } from "react-router-dom";
 

@@ -5,7 +5,7 @@ import Search from '../Components/Search';
 import { useLoaderData, useOutletContext } from 'react-router-dom';
 import customFetch from '../utils/customFetch';
 import axios from 'axios';
-import { useCurrentUser } from '../providers/CurrentUserProvider';
+import { useCurrentUser } from '../providers/useCurrentUser';
 
 import { User, DogType } from '../Types';
 
@@ -33,7 +33,7 @@ type TAllDogsProviderTypes = {
   setSearchResults: React.Dispatch<React.SetStateAction<DogType[]>>;
   searchResults: DogType[] | undefined;
   removeDog: (dogId: number) => void;
-  reFetchAllDogs: (user: User | null) => void;
+  reFetchAllDogs: (id:number) => void;
 };
 
 
@@ -45,8 +45,8 @@ export const AllDogs: React.FC<{ children: ReactNode }> = () => {
   const [allDogs, setAllDogs] = useState<DogType[]>([]);
   const [searchResults, setSearchResults] = useState<DogType[]>([]);
 
-  const reFetchAllDogs = async (user: User | null) => {
-    const id = user?.id;
+  const reFetchAllDogs = async (id:number) => {
+    
 
     try {
       const { data } = await axios.get(
@@ -61,8 +61,8 @@ export const AllDogs: React.FC<{ children: ReactNode }> = () => {
   };
 
   useEffect(() => {
-    const fetchAllDogs = async (user: User | null) => {
-      const id = user?.id;
+    const fetchAllDogs = async (id: number) => {
+      
 
       try {
         const { data } = await axios.get(
@@ -75,7 +75,7 @@ export const AllDogs: React.FC<{ children: ReactNode }> = () => {
         return null;
       }
     };
-    fetchAllDogs(user);
+    fetchAllDogs(user.id);
   }, []);
 
   const removeDog = (dogId:number) => {

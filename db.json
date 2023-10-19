@@ -106,7 +106,7 @@
       "id": 17
     },
     {
-      "name": "Anniep",
+      "name": "AnnieP",
       "lastName": "Morrison",
       "email": "mommy@gmail.com",
       "password": "cat",
@@ -339,7 +339,7 @@
       "notes": "Snoop Dog has been suffering with left rear hip pain for approximately 4 months. This pain comes and goes but is worse in the morning.  It is also exacerbated by intense exercise.   Xray pending.",
       "vetId": 21,
       "isActive": true,
-      "ownerName": "Charles Manson",
+      "ownerName": "Charles Gibson",
       "id": 28
     },
     {
@@ -528,9 +528,19 @@
       "id": 39
     },
     {
+      "dogId": 28,
+      "conditionId": 5,
+      "id": 41
+    },
+    {
       "dogId": 16,
-      "conditionId": 3,
-      "id": 40
+      "conditionId": 2,
+      "id": 42
+    },
+    {
+      "dogId": 16,
+      "conditionId": 4,
+      "id": 43
     }
   ]
 }

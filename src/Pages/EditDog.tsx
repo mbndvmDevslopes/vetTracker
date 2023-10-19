@@ -7,7 +7,7 @@ import {
   redirect,
   useLoaderData,
 } from "react-router-dom";
-import type { ActionFunction,LoaderFunction } from "react-router"
+import type { ActionFunction, LoaderFunction } from "react-router";
 import { toast } from "react-toastify";
 import customFetch from "../utils/customFetch";
 import axios from "axios";
@@ -15,12 +15,12 @@ import { Dog, User } from "../Types";
 import { useEffect, useState } from "react";
 import { Condition } from "../Types";
 import { retrieveCurrentUser } from "../utils/RetrieveCurrentUser";
-import { validateWeighNotNull, validateWeight } from '../utils/validation';
-import { SubmitBtn } from '../Components/SubmitBtn';
-import { useCurrentUser } from '../providers/CurrentUserProvider';
-import { useConditions } from '../providers/ConditionsProvider';
-import { capitalizeAndTrim } from '../utils/transformations';
-import { validateDate } from '../utils/transformations';
+import { validateWeighNotNull, validateWeight } from "../utils/validation";
+import { SubmitBtn } from "../Components/SubmitBtn";
+import { useCurrentUser } from "../providers/useCurrentUser";
+import { useConditions } from "../providers/useConditions";
+import { capitalizeAndTrim } from "../utils/transformations";
+import { validateDate } from "../utils/transformations";
 
 type Params = {
   id: number;
@@ -32,16 +32,15 @@ const getExistingDogsConditions = (id: number) => {
       return response.data;
     })
     .catch((error) => {
-      console.error('Error fetching existing dogsConditions:', error);
+      console.error("Error fetching existing dogsConditions:", error);
     });
 };
 export const loader: LoaderFunction = async ({ params }) => {
   try {
-    console.log('edit dog params', params);
+    console.log("edit dog params", params);
     const { data } = await axios.get(
       `http://localhost:3000/dogs?id=${params.id}`
     );
-    //const { data } = await axios.get(`http://localhost:3000/dogs`);
     console.log(data);
     const dog: Dog = data[0];
 
@@ -53,12 +52,12 @@ export const loader: LoaderFunction = async ({ params }) => {
     console.log(dogData);
     return dogData;
   } catch (error) {
-    toast.error('Error fetching dog:');
-    return redirect('/dashboard/all-dogs');
+    toast.error("Error fetching dog:");
+    return redirect("/dashboard/all-dogs");
   }
 };
 const postConditions = async (dogId: number, formConditions: number[]) => {
-  const apiUrl = 'http://localhost:3000';
+  const apiUrl = "http://localhost:3000";
 
   try {
     // Fetch existing dogsConditions for the specific dog ID from the API endpoint
@@ -82,7 +81,7 @@ const postConditions = async (dogId: number, formConditions: number[]) => {
       )
       .map((conditionId) => {
         return {
-          dogId: parseInt(dogId),
+          dogId: dogId,
           conditionId: conditionId,
         };
       });
@@ -101,9 +100,9 @@ const postConditions = async (dogId: number, formConditions: number[]) => {
       )
     );
 
-    console.log('Conditions updated successfully');
+    console.log("Conditions updated successfully");
   } catch (error) {
-    console.error('Error updating conditions:', error);
+    console.error("Error updating conditions:", error);
   }
 };
 
@@ -120,42 +119,32 @@ export const action: ActionFunction = async ({ request, params }) => {
   /*   const data = Object.fromEntries(formData); */
 
   const { id } = getUserId();
-  console.log(typeof formData.get('weight'));
+
   const dogData: Dog = {
-    sex: capitalizeAndTrim(formData.get('sex')?.toString()),
-    name: capitalizeAndTrim(formData.get('name')?.toString()),
-    breed: capitalizeAndTrim(formData.get('breed')?.toString()),
-    birthDate: formData.get('birthDate'),
-    weight: parseFloat(formData.get('weight') as string) || 0,
-    dateVisited: formData.get('dateVisited'),
-    notes: formData.get('notes') || ''.trim(),
+    sex: capitalizeAndTrim(formData.get("sex")?.toString()),
+    name: capitalizeAndTrim(formData.get("name")?.toString()),
+    breed: capitalizeAndTrim(formData.get("breed")?.toString()),
+    birthDate: formData.get("birthDate"),
+    weight: parseFloat(formData.get("weight") as string) || 0,
+    dateVisited: formData.get("dateVisited"),
+    notes: formData.get("notes") || "".trim(),
     vetId: id,
-    ownerName: capitalizeAndTrim(formData.get('ownerName')?.toString()),
+    ownerName: capitalizeAndTrim(formData.get("ownerName")?.toString()),
   };
-  /* const dogData:Dog = {
-  sex: capitalizeAndTrim(formData.get('sex')),
-  name: capitalizeAndTrim(formData.get('name')),
-  breed: capitalizeAndTrim(formData.get('breed')),
-  birthDate: formData.get('birthDate'),
-    weight: parseFloat(formData.get('weight')),
-    dateVisited: formData.get('dateVisited'),
-    notes: formData.get('notes').trim(),
-    vetId: id,
-    ownerName: capitalize(formData.get('ownerName')).trim(),
-} */
-  const selectedConditionIdsString = formData.getAll('condition[]');
+  
+  const selectedConditionIdsString = formData.getAll("condition[]");
   const formConditions = convertFormIdsToNumbers(selectedConditionIdsString);
 
   if (!validateDate(dogData.dateVisited)) {
-    toast.error('Visit date cannot be in the future');
+    toast.error("Visit date cannot be in the future");
     return;
   }
   if (!validateDate(dogData.birthDate)) {
-    toast.error('Birth date cannot be in the future');
+    toast.error("Birth date cannot be in the future");
     return;
   }
   if (!validateWeight(dogData.weight)) {
-    toast.error('Weight must be a number greater than zero');
+    toast.error("Weight must be a number greater than zero");
     return false;
   }
 
@@ -166,36 +155,46 @@ export const action: ActionFunction = async ({ request, params }) => {
     } 
   }*/
 
-  const dogId = parseInt(params.id);
+  const dogId = params.id ? parseInt(params.id) : 0;
 
   try {
     /* await axios.patch(`http://localhost:3000/dogs?id=${params.id}`, dogData); */
     await axios.patch(`http://localhost:3000/dogs/${params.id}`, dogData);
     postConditions(dogId, formConditions);
 
-    toast.success('Dog edited successfully');
-    return redirect('/dashboard/all-dogs');
+    toast.success("Dog edited successfully");
+    return redirect("/dashboard/all-dogs");
   } catch (error) {
-    toast.error('Error fetching dog:');
-    return redirect('/dashboard/all-dogs');
+    toast.error("Error fetching dog:");
+    return redirect("/dashboard/all-dogs");
   }
 };
 
-const convertFormIdsToNumbers = (strIds: string[]) =>
-  strIds.map((condition: string) => {
-    return parseInt(condition);
+const convertFormIdsToNumbers = (strIds: FormDataEntryValue[]) =>
+  strIds.map((condition: FormDataEntryValue) => {
+    if (typeof condition === "string") {
+      return parseInt(condition);
+    }
   });
-  
+
 export const EditDog: React.FC = () => {
   /* const dog: Dog = useLoaderData() as Dog; */
   const navigate = useNavigate();
   const navigation = useNavigation();
-  const isSubmitting = navigation.state === 'submitting';
+  const isSubmitting = navigation.state === "submitting";
   const { conditions } = useConditions();
   /* const [conditions, setConditions] = useState<Condition[]>([]); */
-  
-  const dog: Dog = useLoaderData().dog as Dog;
-  const existingConditions: Condition[] = useLoaderData().existingConditions;
+
+  /* const dog: Dog = useLoaderData().dog as Dog;
+  const existingConditions: Condition[] = useLoaderData().existingConditions; */
+  /*   const {dog, existingConditions} = useLoaderData();*/
+  const data = useLoaderData() as {
+    dog: Dog;
+    existingConditions: Condition[];
+  };
+
+  const { dog, existingConditions } = data;
+
   const { conditions: allConditions } = useConditions();
   const [dogConditions, setDogConditions] = useState<Condition[]>([]);
 
@@ -206,7 +205,7 @@ export const EditDog: React.FC = () => {
         (existingCondition) => existingCondition.conditionId === condition.id
       )
     );
-    filteredConditions ? setDogConditions(filteredConditions) : '';
+    filteredConditions ? setDogConditions(filteredConditions) : "";
   }, [allConditions, existingConditions]);
 
   return (
@@ -244,7 +243,7 @@ export const EditDog: React.FC = () => {
             name="dateVisited"
             labelText="Date Visited"
             defaultValue={dog.dateVisited}
-            max={new Date().toLocaleDateString('en-ca')}
+            max={new Date().toLocaleDateString("en-ca")}
           />
           <FormRow
             type="string"
@@ -258,7 +257,7 @@ export const EditDog: React.FC = () => {
             name="birthDate"
             labelText="Birth Date"
             defaultValue={dog.birthDate}
-            max={new Date().toLocaleDateString('en-ca')}
+            max={new Date().toLocaleDateString("en-ca")}
           />
           <div className="form-row">
             <label htmlFor="notes" className="form-label">
@@ -305,14 +304,14 @@ export const EditDog: React.FC = () => {
               className="btn btn-block form-btn"
               disabled={isSubmitting}
             >
-              {isSubmitting ? 'Submitting' : 'Submit'}
+              {isSubmitting ? "Submitting" : "Submit"}
             </button>
             <button
               type="button"
               className="btn btn-block form-btn"
               disabled={isSubmitting}
               onClick={() => {
-                navigate('/dashboard/all-dogs');
+                navigate("/dashboard/all-dogs");
               }}
             >
               Cancel
@@ -323,4 +322,3 @@ export const EditDog: React.FC = () => {
     </Wrapper>
   );
 };
-

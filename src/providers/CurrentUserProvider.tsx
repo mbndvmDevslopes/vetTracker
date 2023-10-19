@@ -1,6 +1,5 @@
 import React, {
   createContext,
-  useContext,
   useState,
   useEffect,
   ReactNode,
@@ -20,7 +19,7 @@ type TCurrentUserProviderTypes = {
   isLoading: boolean;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 };
-const CurrentUserContext = createContext<TCurrentUserProviderTypes>(
+export const CurrentUserContext = createContext<TCurrentUserProviderTypes>(
   {} as TCurrentUserProviderTypes
 );
 
@@ -119,4 +118,4 @@ export const CurrentUserProvider: React.FC<{ children: ReactNode }> = ({
     </CurrentUserContext.Provider>
   );
 };
-export const useCurrentUser = () => useContext(CurrentUserContext);
+

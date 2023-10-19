@@ -1,5 +1,5 @@
 import { FormEvent, useState } from "react";
-import { useConditions } from "../providers/ConditionsProvider";
+import { useConditions } from "../providers/useConditions";
 import { FormRowControlledInput } from "../Components/FormRowControlledInput";
 import { toast } from "react-toastify";
 import axios from "axios";

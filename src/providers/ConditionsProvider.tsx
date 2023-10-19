@@ -1,13 +1,12 @@
 import React, {
   createContext,
-  useContext,
   useState,
   useEffect,
   ReactNode,
 } from "react";
 import { Conditions } from "../Types";
 import { getConditions } from "../api";
-import { useCurrentUser } from "./CurrentUserProvider";
+import { useCurrentUser } from "./useCurrentUser";
 
 type TConditionsProvider = {
   conditions: Conditions[] | null;
@@ -15,7 +14,7 @@ type TConditionsProvider = {
   refetchConditions: () => void;
 };
 
-const ConditionsContext = createContext<TConditionsProvider>(
+export const ConditionsContext = createContext<TConditionsProvider>(
   {} as TConditionsProvider
 );
 
@@ -49,4 +48,4 @@ export const ConditionsProvider: React.FC<{ children: ReactNode }> = ({
     </ConditionsContext.Provider>
   );
 };
-export const useConditions = () => useContext(ConditionsContext);
+/* export const useConditions = () => useContext(ConditionsContext); */

@@ -10,8 +10,8 @@ import axios from 'axios';
 import { retrieveCurrentUser } from '../utils/RetrieveCurrentUser';
 import { getConditions } from '../api';
 import { Conditions } from '../Types';
-import {  useCurrentUser } from '../providers/CurrentUserProvider';
-import { useConditions } from '../providers/ConditionsProvider';
+import {  useCurrentUser } from '../providers/useCurrentUser';
+import { useConditions } from '../providers/useConditions';
 
 
 type User = {

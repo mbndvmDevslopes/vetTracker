@@ -13,6 +13,7 @@ const Wrapper = styled.aside`
       margin-left: -250px;
       transition: margin-left 0.3s ease-in-out;
     }
+    
     .content {
       position: sticky;
       top: 0;

@@ -1,29 +1,27 @@
-import { Form } from 'react-router-dom';
-import { FormRow } from './FormRow';
-import Wrapper from '../assets/Wrappers/DashboardFormPage';
+import { Form } from "react-router-dom";
+import { FormRow } from "./FormRow";
+import Wrapper from "../assets/Wrappers/DashboardFormPage";
 
-import { Conditions } from '../Types';
-import { useConditions } from '../providers/ConditionsProvider';
+import { Conditions } from "../Types";
+import { useConditions } from "../providers/useConditions";
 
-const Search = ({setSearchResults}) => {
-  const {  conditions } = useConditions();
+const Search: React.FC<{
+  setSearchResults: React.Dispatch<React.SetStateAction<Conditions[]>>;
+}> = ({ setSearchResults }) => {
+  const { conditions } = useConditions();
 
-  
+  const handleSearch = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const searchTerm = e.target.value.toLowerCase();
 
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement|HTMLSelectElement>) => {
-    const searchTerm= e.target.value.toLowerCase();
-   
     if (!e.target.value) return setSearchResults(conditions as Conditions[]);
 
-    const filteredConditions = conditions?.filter(
-      (condition: Conditions) =>
-        condition.conditionName.toLowerCase().includes(searchTerm)
-        
+    const filteredConditions = conditions?.filter((condition: Conditions) =>
+      condition.conditionName.toLowerCase().includes(searchTerm)
     );
     setSearchResults(filteredConditions as Conditions[]);
-  
   };
-
 
   return (
     <Wrapper>
