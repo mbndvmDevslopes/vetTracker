@@ -15,29 +15,27 @@ import { Dog, User } from "../Types";
 import { useEffect, useState } from "react";
 import { Condition } from "../Types";
 import { retrieveCurrentUser } from "../utils/RetrieveCurrentUser";
-import { validateWeight } from "../utils/validation";
-import { SubmitBtn } from "../Components/SubmitBtn";
-import { useCurrentUser } from "../providers/CurrentUserProvider";
-import { useConditions } from "../providers/ConditionsProvider";
-import { capitalize, capitalizeAndTrim } from "../utils/transformations";
-import {validateDate} from '../utils/transformations'
-import { number } from "prop-types";
-
+import { validateWeighNotNull, validateWeight } from '../utils/validation';
+import { SubmitBtn } from '../Components/SubmitBtn';
+import { useCurrentUser } from '../providers/CurrentUserProvider';
+import { useConditions } from '../providers/ConditionsProvider';
+import { capitalizeAndTrim } from '../utils/transformations';
+import { validateDate } from '../utils/transformations';
 
 type Params = {
   id: number;
 };
-const getExistingDogsConditions = (id:number) => {
+const getExistingDogsConditions = (id: number) => {
   return axios
     .get(`http://localhost:3000/dogsConditions?dogId=${id}`)
     .then((response) => {
       return response.data;
     })
     .catch((error) => {
-      console.error("Error fetching existing dogsConditions:", error);
+      console.error('Error fetching existing dogsConditions:', error);
     });
 };
-export const loader:LoaderFunction = async ({ params }) => {
+export const loader: LoaderFunction = async ({ params }) => {
   try {
     console.log('edit dog params', params);
     const { data } = await axios.get(
@@ -55,12 +53,12 @@ export const loader:LoaderFunction = async ({ params }) => {
     console.log(dogData);
     return dogData;
   } catch (error) {
-    toast.error("Error fetching dog:");
-    return redirect("/dashboard/all-dogs");
+    toast.error('Error fetching dog:');
+    return redirect('/dashboard/all-dogs');
   }
 };
 const postConditions = async (dogId: number, formConditions: number[]) => {
-  const apiUrl = "http://localhost:3000";
+  const apiUrl = 'http://localhost:3000';
 
   try {
     // Fetch existing dogsConditions for the specific dog ID from the API endpoint
@@ -91,7 +89,7 @@ const postConditions = async (dogId: number, formConditions: number[]) => {
 
     // Remove conditions from the database
     await Promise.all(
-      conditionsToRemove.map((entryId:number) =>
+      conditionsToRemove.map((entryId: number) =>
         axios.delete(`${apiUrl}/dogsConditions/${entryId}`)
       )
     );
@@ -103,12 +101,11 @@ const postConditions = async (dogId: number, formConditions: number[]) => {
       )
     );
 
-    console.log("Conditions updated successfully");
+    console.log('Conditions updated successfully');
   } catch (error) {
-    console.error("Error updating conditions:", error);
+    console.error('Error updating conditions:', error);
   }
 };
-
 
 const getUserId = () => {
   /*  const userFromLocalStorage = localStorage.getItem('user');
@@ -120,21 +117,22 @@ const getUserId = () => {
 };
 export const action: ActionFunction = async ({ request, params }) => {
   const formData = await request.formData();
-  const data = Object.fromEntries(formData);
-  capitalizeAndTrim(data)
+  /*   const data = Object.fromEntries(formData); */
+
   const { id } = getUserId();
-   const dogData:Dog = {
+  console.log(typeof formData.get('weight'));
+  const dogData: Dog = {
     sex: capitalizeAndTrim(formData.get('sex')?.toString()),
     name: capitalizeAndTrim(formData.get('name')?.toString()),
     breed: capitalizeAndTrim(formData.get('breed')?.toString()),
     birthDate: formData.get('birthDate'),
-    weight: parseFloat(formData.get('weight')),
+    weight: parseFloat(formData.get('weight') as string) || 0,
     dateVisited: formData.get('dateVisited'),
-    notes: formData.get('notes').trim(),
+    notes: formData.get('notes') || ''.trim(),
     vetId: id,
     ownerName: capitalizeAndTrim(formData.get('ownerName')?.toString()),
-  }; 
-/* const dogData:Dog = {
+  };
+  /* const dogData:Dog = {
   sex: capitalizeAndTrim(formData.get('sex')),
   name: capitalizeAndTrim(formData.get('name')),
   breed: capitalizeAndTrim(formData.get('breed')),
@@ -170,8 +168,6 @@ export const action: ActionFunction = async ({ request, params }) => {
 
   const dogId = parseInt(params.id);
 
-  
-    
   try {
     /* await axios.patch(`http://localhost:3000/dogs?id=${params.id}`, dogData); */
     await axios.patch(`http://localhost:3000/dogs/${params.id}`, dogData);

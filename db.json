@@ -125,6 +125,13 @@
       "email": "homer@gmail.com",
       "password": "dog",
       "id": 20
+    },
+    {
+      "name": "Margaret",
+      "lastName": "Hemmingway",
+      "email": "anniepnelson1@hotmail.com",
+      "password": "stop",
+      "id": 21
     }
   ],
   "dogs": [
@@ -321,6 +328,32 @@
       "isActive": true,
       "ownerName": "Bart Eller",
       "id": 27
+    },
+    {
+      "sex": "M",
+      "name": "Snoops",
+      "breed": "Labrador Retriever",
+      "birthDate": "2023-01-14",
+      "weight": 88,
+      "dateVisited": "2023-10-19",
+      "notes": "Snoop Dog has been suffering with left rear hip pain for approximately 4 months. This pain comes and goes but is worse in the morning.  It is also exacerbated by intense exercise.   Xray pending.",
+      "vetId": 21,
+      "isActive": true,
+      "ownerName": "Charles Manson",
+      "id": 28
+    },
+    {
+      "sex": "F",
+      "name": "Sitka",
+      "breed": "Siberian Husky Cross",
+      "birthDate": "1989-03-05",
+      "weight": "48",
+      "dateVisited": "1992-06-12",
+      "notes": "",
+      "vetId": 21,
+      "isActive": true,
+      "ownerName": "Ann Lerud",
+      "id": 29
     }
   ],
   "conditions": [
@@ -445,11 +478,6 @@
       "id": 20
     },
     {
-      "dogId": 17,
-      "conditionId": 9,
-      "id": 22
-    },
-    {
       "dogId": 6,
       "conditionId": 3,
       "id": 27
@@ -488,6 +516,21 @@
       "dogId": 27,
       "conditionId": 11,
       "id": 36
+    },
+    {
+      "dogId": 17,
+      "conditionId": 3,
+      "id": 38
+    },
+    {
+      "dogId": 29,
+      "conditionId": 11,
+      "id": 39
+    },
+    {
+      "dogId": 16,
+      "conditionId": 3,
+      "id": 40
     }
   ]
 }
