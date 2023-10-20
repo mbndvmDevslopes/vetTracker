@@ -28,5 +28,4 @@ export type DogsConditions = {
 export type Conditions = {
   id: number;
   conditionName: string;
-  isActive: boolean;
 };

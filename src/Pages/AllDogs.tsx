@@ -2,12 +2,10 @@ import { useContext, createContext, useState, useEffect, ReactNode } from 'react
 import { toast } from 'react-toastify';
 import { DogsContainer } from '../Components/DogsContainer';
 import Search from '../Components/Search';
-import { useLoaderData, useOutletContext } from 'react-router-dom';
-import customFetch from '../utils/customFetch';
 import axios from 'axios';
 import { useCurrentUser } from '../providers/useCurrentUser';
 
-import { User, DogType } from '../Types';
+import { DogType } from '../Types';
 
 /* export const loader = async ({request}: {request: Request}) => {
   try {
@@ -33,11 +31,12 @@ type TAllDogsProviderTypes = {
   setSearchResults: React.Dispatch<React.SetStateAction<DogType[]>>;
   searchResults: DogType[] | undefined;
   removeDog: (dogId: number) => void;
-  reFetchAllDogs: (id:number) => void;
+  reFetchAllDogs: (id: number) => void;
 };
 
-
-const AllDogsContext = createContext<TAllDogsProviderTypes>({} as TAllDogsProviderTypes);
+export const AllDogsContext = createContext<TAllDogsProviderTypes>(
+  {} as TAllDogsProviderTypes
+);
 
 export const AllDogs: React.FC<{ children: ReactNode }> = () => {
   /*  const { data } = useLoaderData(); */
@@ -45,9 +44,7 @@ export const AllDogs: React.FC<{ children: ReactNode }> = () => {
   const [allDogs, setAllDogs] = useState<DogType[]>([]);
   const [searchResults, setSearchResults] = useState<DogType[]>([]);
 
-  const reFetchAllDogs = async (id:number) => {
-    
-
+  const reFetchAllDogs = async (id: number) => {
     try {
       const { data } = await axios.get(
         `http://localhost:3000/dogs?vetId=${id}`
@@ -62,8 +59,6 @@ export const AllDogs: React.FC<{ children: ReactNode }> = () => {
 
   useEffect(() => {
     const fetchAllDogs = async (id: number) => {
-      
-
       try {
         const { data } = await axios.get(
           `http://localhost:3000/dogs?vetId=${id}`
@@ -75,10 +70,12 @@ export const AllDogs: React.FC<{ children: ReactNode }> = () => {
         return null;
       }
     };
-    fetchAllDogs(user.id);
+    if (user) {
+      fetchAllDogs(user.id);
+    }
   }, []);
 
-  const removeDog = (dogId:number) => {
+  const removeDog = (dogId: number) => {
     // Filter out the dog with the specified ID from the current list of dogs
     const updatedDogs = allDogs.filter((dog) => dog.id !== dogId);
     setAllDogs(updatedDogs);
@@ -113,6 +110,6 @@ export const AllDogs: React.FC<{ children: ReactNode }> = () => {
   );
 };
 
-export const useAllDogsContext = () => useContext(AllDogsContext);
+
 
 export default AllDogs;

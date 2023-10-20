@@ -204,9 +204,9 @@
       "sex": "M",
       "name": "Bisby",
       "breed": "Poodle",
-      "birthDate": "2021-09-29",
+      "birthDate": "2021-09-29T00:00:00.000Z",
       "weight": 2,
-      "dateVisited": "2023-09-27",
+      "dateVisited": "2023-09-27T00:00:00.000Z",
       "notes": "This dog was not sick",
       "vetId": 3,
       "isActive": false,
@@ -539,7 +539,7 @@
     },
     {
       "dogId": 16,
-      "conditionId": 4,
+      "conditionId": 3,
       "id": 43
     }
   ]
