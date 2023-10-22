@@ -1,4 +1,4 @@
-import { useContext, createContext, useState, useEffect, ReactNode } from 'react';
+import { createContext, useState, useEffect, ReactNode } from 'react';
 import { toast } from 'react-toastify';
 import { DogsContainer } from '../Components/DogsContainer';
 import Search from '../Components/Search';
@@ -7,24 +7,6 @@ import { useCurrentUser } from '../providers/useCurrentUser';
 
 import { DogType } from '../Types';
 
-/* export const loader = async ({request}: {request: Request}) => {
-  try {
-   
-
-    const { id } = user;
-  
-    if (!id) {
-      throw new Error('User ID not found in local storage');
-    }
-    const { data } = await axios.get(`http://localhost:3000/dogs?vetId=${id}`, params);
-    
-    console.log(data);
-    return { data };
-  } catch (error) {
-    toast.error('Error fetching all dogs:');
-    return null;
-  }
-}; */
 type TAllDogsProviderTypes = {
   setAllDogs: React.Dispatch<React.SetStateAction<DogType[]>>;
   allDogs: DogType[] | undefined;
@@ -80,19 +62,7 @@ export const AllDogs: React.FC<{ children: ReactNode }> = () => {
     const updatedDogs = allDogs.filter((dog) => dog.id !== dogId);
     setAllDogs(updatedDogs);
   };
-  /* 
-  const [allDogs, setDogs] = useState([]);
-  useEffect(() => {
-    axios
-      .get(`http://localhost:3000/dogs?vetId=${userData.id}`)
-      .then((response) => {
-        setDogs(response.data);
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.error('Error fetching dogs:', error);
-      });
-  }, []); */
+
   return (
     <AllDogsContext.Provider
       value={{
@@ -109,7 +79,5 @@ export const AllDogs: React.FC<{ children: ReactNode }> = () => {
     </AllDogsContext.Provider>
   );
 };
-
-
 
 export default AllDogs;

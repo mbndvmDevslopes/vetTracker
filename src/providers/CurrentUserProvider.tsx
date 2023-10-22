@@ -1,13 +1,8 @@
-import React, {
-  createContext,
-  useState,
-  useEffect,
-  ReactNode,
-} from "react";
-import { getUser, getUserData } from "../api"; // Import the API function
-import { User } from "../Types";
-import { retrieveCurrentUser } from "../utils/RetrieveCurrentUser";
-import { toast } from "react-toastify";
+import React, { createContext, useState, useEffect, ReactNode } from 'react';
+import { getUser, getUserData } from '../api'; // Import the API function
+import { User } from '../Types';
+import { retrieveCurrentUser } from '../utils/RetrieveCurrentUser';
+import { toast } from 'react-toastify';
 
 /* import axios from "axios";
  */
@@ -27,7 +22,7 @@ export const CurrentUserProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [user, setUser] = useState<User | null>(() => {
-    const savedUser = localStorage.getItem("user");
+    const savedUser = localStorage.getItem('user');
     return savedUser ? JSON.parse(savedUser) : null;
   });
   const [isLoading, setIsLoading] = useState(false);
@@ -35,31 +30,6 @@ export const CurrentUserProvider: React.FC<{ children: ReactNode }> = ({
   const login = async (userLoggingIn: { email: string; password: string }) => {
     setIsLoading(true);
     try {
-      /* const response = await axios.get(
-        `http://localhost:3000/users?email=${userLoggingIn.email}`
-      );
-
-      if (response.status === 200) {
-        const users = response.data;
-
-        const user = users.find(
-          (user: User) => user.password === userLoggingIn.password
-        );
-
-        if (user) {
-          setUser(user);
-         
-          localStorage.setItem("user", JSON.stringify(user));
-          toast.success(`Thanks, Dr. ${user.lastName}, you are now logged in`);
-          return user;
-        } else {
-          toast.warning("Invalid credentials");
-          throw new Error("Invalid credentials");
-        }
-      } else {
-        console.error("Error fetching user data");
-        throw new Error("Error fetching user data");
-      } */
       const users = await getUser(userLoggingIn.email);
       const user = users.find(
         (user: User) => user.password === userLoggingIn.password
@@ -67,20 +37,16 @@ export const CurrentUserProvider: React.FC<{ children: ReactNode }> = ({
 
       if (user) {
         setUser(user);
-       
-        localStorage.setItem("user", JSON.stringify(user));
+
+        localStorage.setItem('user', JSON.stringify(user));
         toast.success(`Thanks, Dr. ${user.lastName}, you are now logged in`);
         return user;
       } else {
-        toast.warning("Invalid credentials");
-        throw new Error("Invalid credentials");
+        toast.warning('Invalid credentials');
+        throw new Error('Invalid credentials');
       }
-    } /* else {
-      console.error("Error fetching user data");
-      throw new Error("Error fetching user data");
-    }  
-    }*/ catch (error) {
-      console.error("An error occurred:", error);
+    } catch (error) {
+      console.error('An error occurred:', error);
       throw error;
     } finally {
       setIsLoading(false);
@@ -93,10 +59,9 @@ export const CurrentUserProvider: React.FC<{ children: ReactNode }> = ({
       try {
         const userData = await getUserData(currentUser.id);
         setUser(userData);
-        localStorage.setItem("user", JSON.stringify(userData));
-        /*  console.log('user from context', userData); */
+        localStorage.setItem('user', JSON.stringify(userData));
       } catch (error) {
-        console.error("Error fetching user data:", error);
+        console.error('Error fetching user data:', error);
       }
     }
   };
@@ -108,8 +73,6 @@ export const CurrentUserProvider: React.FC<{ children: ReactNode }> = ({
     fetchUserData();
   }, []);
 
-  console.log("user from context", user);
-
   return (
     <CurrentUserContext.Provider
       value={{ user, setUser, refetchUser, login, setIsLoading, isLoading }}
@@ -118,4 +81,3 @@ export const CurrentUserProvider: React.FC<{ children: ReactNode }> = ({
     </CurrentUserContext.Provider>
   );
 };
-

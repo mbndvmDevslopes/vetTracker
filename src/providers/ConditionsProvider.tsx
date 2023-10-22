@@ -39,7 +39,6 @@ export const ConditionsProvider: React.FC<{ children: ReactNode }> = ({
     };
     fetchConditions();
   }, [user]);
-  console.log("conditions from context", conditions);
   return (
     <ConditionsContext.Provider
       value={{ conditions, setConditions, refetchConditions }}
@@ -48,4 +47,3 @@ export const ConditionsProvider: React.FC<{ children: ReactNode }> = ({
     </ConditionsContext.Provider>
   );
 };
-/* export const useConditions = () => useContext(ConditionsContext); */

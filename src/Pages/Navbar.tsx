@@ -1,7 +1,7 @@
 import Wrapper from '../assets/Wrappers/Navbar';
 import { AiOutlineMenu } from 'react-icons/ai';
 import Logo from '../Components/Logo';
-import { useDashboardContext } from './DashboardLayout';
+import { useDashboardContext } from '../providers/useDashboardContext';
 import { LogoutContainer } from '../Components/LogoutContainer';
 import { ThemeToggle } from '../Components/ThemeToggle';
 

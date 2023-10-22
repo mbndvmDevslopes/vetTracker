@@ -10,10 +10,10 @@ const Wrapper = styled.aside`
       min-height: 100vh;
       height: 100%;
       width: 250px;
-      margin-left: -250px;
+      margin-left: -750px;
       transition: margin-left 0.3s ease-in-out;
     }
-    
+
     .content {
       position: sticky;
       top: 0;

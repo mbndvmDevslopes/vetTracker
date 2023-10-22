@@ -106,9 +106,9 @@
       "id": 17
     },
     {
-      "name": "AnnieP",
+      "name": "Tommy",
       "lastName": "Morrison",
-      "email": "mommy@gmail.com",
+      "email": "tommy@gmail.com",
       "password": "cat",
       "id": 18
     },
@@ -132,6 +132,13 @@
       "email": "anniepnelson1@hotmail.com",
       "password": "stop",
       "id": 21
+    },
+    {
+      "name": "Chet",
+      "lastName": "Adkins",
+      "email": "chet@gmail.com",
+      "password": "cat",
+      "id": 22
     }
   ],
   "dogs": [
@@ -352,8 +359,21 @@
       "notes": "",
       "vetId": 21,
       "isActive": true,
-      "ownerName": "Ann Lerud",
+      "ownerName": "Ann Johnson",
       "id": 29
+    },
+    {
+      "sex": "M",
+      "name": "Bismith",
+      "breed": "Antiqua",
+      "birthDate": "2022-10-05",
+      "weight": 65,
+      "dateVisited": "2023-10-04",
+      "notes": "Nothing to note",
+      "vetId": 3,
+      "isActive": false,
+      "ownerName": "Carl Cheese",
+      "id": 30
     }
   ],
   "conditions": [
@@ -541,6 +561,11 @@
       "dogId": 16,
       "conditionId": 3,
       "id": 43
+    },
+    {
+      "dogId": 30,
+      "conditionId": 11,
+      "id": 44
     }
   ]
 }

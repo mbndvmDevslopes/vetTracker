@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { FormRow } from '../Components/FormRow';
 import Wrapper from '../assets/Wrappers/DashboardFormPage';
 import {
@@ -6,12 +7,10 @@ import {
   useNavigate,
   useLoaderData,
 } from 'react-router-dom';
-import { useEffect, useState } from 'react';
 import { Conditions, DogType, DogsConditions } from '../Types';
 import { useConditions } from '../providers/useConditions';
 
 export const EditDog: React.FC = () => {
-  /* const dog: Dog = useLoaderData() as Dog; */
   const navigate = useNavigate();
   const navigation = useNavigation();
   const isSubmitting = navigation.state === 'submitting';
@@ -35,6 +34,7 @@ export const EditDog: React.FC = () => {
     );
     filteredConditions ? setDogConditions(filteredConditions) : '';
   }, [allConditions, existingConditions]);
+
   return (
     <Wrapper>
       <Form method="post" className="form">

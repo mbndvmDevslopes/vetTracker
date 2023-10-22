@@ -74,10 +74,10 @@ const convertFormIdsToNumbers = (strIds: FormDataEntryValue[]) =>
 
 export const action: ActionFunction = async ({ request, params }) => {
   const formData = await request.formData();
-  /*   const data = Object.fromEntries(formData); */
 
   const { id } = getUserId();
   const dateVisitedValue = formData.get('dateVisited');
+
   const dogData: Omit<DogType, 'id'> = {
     sex: capitalizeAndTrim(formData.get('sex')?.toString()),
     name: capitalizeAndTrim(formData.get('name')?.toString()),
@@ -85,7 +85,6 @@ export const action: ActionFunction = async ({ request, params }) => {
     birthDate: new Date(formData.get('birthDate') as string) || new Date(),
 
     weight: parseFloat(formData.get('weight') as string) || 0,
-    /* dateVisited: new Date(formData.get('dateVisited') as string | null),  */
     dateVisited: new Date(dateVisitedValue as string) || new Date(),
 
     notes: formData.get('notes')?.toString() || ''.trim(),

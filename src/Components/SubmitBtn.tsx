@@ -1,6 +1,11 @@
 import { useNavigation } from 'react-router-dom';
 
-export const SubmitBtn = ({ formBtn }) => {
+
+type SubmitBtnProps = {
+  formBtn: boolean;
+};
+
+export const SubmitBtn = ({ formBtn }: SubmitBtnProps) => {
   const navigation = useNavigation();
   const isSubmitting = navigation.state === 'submitting';
   return (

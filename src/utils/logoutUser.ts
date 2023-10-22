@@ -2,7 +2,7 @@ import { removeUserFromLocalStorage } from './LocalStorageUser';
 
 import { toast } from 'react-toastify';
 
-export const logoutUser = (id) => {
+export const logoutUser = () => {
   removeUserFromLocalStorage();
 
   toast.success('Logging out');

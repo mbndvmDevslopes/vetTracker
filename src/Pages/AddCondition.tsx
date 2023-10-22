@@ -9,9 +9,8 @@ import { useNavigate } from "react-router-dom";
 
 export const AddCondition = () => {
   const { conditions, refetchConditions } = useConditions();
-  const [newCondition, setNewCondition] = useState<Omit<Conditions, "id">>({
-    conditionName: "",
-    isActive: true,
+  const [newCondition, setNewCondition] = useState<Omit<Conditions, 'id'>>({
+    conditionName: '',
   });
   const navigate = useNavigate();
 

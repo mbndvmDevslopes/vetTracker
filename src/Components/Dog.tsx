@@ -12,7 +12,6 @@ import { useAllDogsContext } from '../providers/useAllDogs';
 import { useCurrentUser } from "../providers/useCurrentUser";
 day.extend(advancedFormat);
 
-/* export const Dog = ({ */
 export const Dog: React.FC<DogType> = ({
   id,
   vetId,
@@ -43,13 +42,11 @@ export const Dog: React.FC<DogType> = ({
     try {
       await deleteDogConditions(id);
       await axios.delete(`http://localhost:3000/dogs/${id}`);
-      toast.success("Dog successfully Deleted");
+      toast.success('Dog successfully Deleted');
       reFetchAllDogs(vetId);
-      /* removeDog(id); */
-      navigate("/dashboard/all-dogs");
-      /*  history.push('/dashboard/add-dog'); */
+      navigate('/dashboard/all-dogs');
     } catch (error) {
-      toast.error("Error deleting dog");
+      toast.error('Error deleting dog');
     }
   };
 
@@ -90,19 +87,18 @@ export const Dog: React.FC<DogType> = ({
       </header>
       <div className="content">
         <div className="content-center">
-          {/* <DogInfo icon={weight} text={sex} /> */}
           <DogInfo icon="Visited:" text={dateVisited} />
           <DogInfo icon="Owner:" text={ownerName} />
-          <div className={isActive ? `status true` : "status false"}>
-            {isActive ? "Active" : "Not Active"}
+          <div className={isActive ? `status true` : 'status false'}>
+            {isActive ? 'Active' : 'Not Active'}
           </div>
         </div>
         <footer className="actions">
           <Link to={`../edit-dog/${id}`} className="btn edit-btn">
             Edit
-          </Link>{" "}
+          </Link>{' '}
           <button type="button" className="btn edit-btn" onClick={toggleActive}>
-            {isActive ? "Set inactive" : "Set as active"}
+            {isActive ? 'Set inactive' : 'Set as active'}
           </button>
           <button
             type="submit"
@@ -110,7 +106,7 @@ export const Dog: React.FC<DogType> = ({
             disabled={isLoading}
             onClick={deleteDog}
           >
-            {isLoading ? "Loading..." : "Delete Dog"}
+            {isLoading ? 'Loading...' : 'Delete Dog'}
           </button>
         </footer>
       </div>

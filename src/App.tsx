@@ -15,20 +15,16 @@ import DashboardLayout from "./Pages/DashboardLayout";
 import { AllConditions } from "./Pages/AllConditions";
 import { EditDog } from "./Pages/EditDog";
 
-import { action as registerAction } from "./Pages/Register";
+import { action as registerAction } from './Actions.Loaders/registerAction';
 import { action as editDogAction } from './Actions.Loaders/editDogActions';
 import { loader as editDogLoader } from './Actions.Loaders/editDogLoader';
-import { AddCondition } from "./Pages/AddCondition";
-import { useState } from "react";
-import { Conditions } from "./Types";
-import { DogsContainer } from "./Components/DogsContainer";
+import { AddCondition } from './Pages/AddCondition';
+import { useState } from 'react';
+import { Conditions } from './Types';
+import { DogsContainer } from './Components/DogsContainer';
+import { checkDefaultTheme } from './utils/CheckDefaultTheme';
 
-export const checkDefaultTheme = () => {
-  const darkThemeString = localStorage.getItem("darkTheme") === "true";
-  document.body.classList.toggle("dark-theme", darkThemeString);
-  const darkTheme = darkThemeString === true ? true : false;
-  return darkTheme;
-};
+
 
 checkDefaultTheme();
 
