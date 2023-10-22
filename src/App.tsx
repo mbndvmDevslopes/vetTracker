@@ -16,8 +16,8 @@ import { AllConditions } from "./Pages/AllConditions";
 import { EditDog } from "./Pages/EditDog";
 
 import { action as registerAction } from "./Pages/Register";
-import { action as editDogAction } from "./Pages/EditDog";
-import { loader as editDogLoader } from "./Pages/EditDog";
+import { action as editDogAction } from './Actions.Loaders/editDogActions';
+import { loader as editDogLoader } from './Actions.Loaders/editDogLoader';
 import { AddCondition } from "./Pages/AddCondition";
 import { useState } from "react";
 import { Conditions } from "./Types";

@@ -1,6 +1,6 @@
 import { Dog } from './Dog';
 import Wrapper from '../assets/Wrappers/DogsContainer';
-import { useAllDogsContext } from '../Pages/AllDogs';
+import { useAllDogsContext } from '../providers/useAllDogs';
 
 export const DogsContainer = () => {
   const { allDogs, searchResults } = useAllDogsContext();

@@ -12,14 +12,17 @@ export const getUserData = async (userId: number) => {
   }
 };
 export const getUser = async (email: string) => {
+  
   try {
     const response = await axios.get(`${API_URL}/users?email=${email}`);
-      if (response.status === 200) {
-       return response.data;
-      }
+
+    if (response.status === 200) {
+      return response.data;
+    }
   } catch (error) {
     console.error('Error fetching user data:', error);
   }
+  
 };
 
 export const getConditions = async () => {

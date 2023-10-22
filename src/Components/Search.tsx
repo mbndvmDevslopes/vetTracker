@@ -3,9 +3,8 @@ import Wrapper from '../assets/Wrappers/DashboardFormPage';
 import { Form } from 'react-router-dom';
 
 
-import { SubmitBtn } from './SubmitBtn';
 import { DogType } from '../Types';
-import { useAllDogsContext } from '../Pages/AllDogs';
+import { useAllDogsContext } from '../providers/useAllDogs';
 
 const Search = () => {
   const {  setSearchResults, allDogs } = useAllDogsContext();

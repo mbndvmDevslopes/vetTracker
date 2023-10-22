@@ -8,7 +8,7 @@ import advancedFormat from "dayjs/plugin/advancedFormat";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { Conditions } from "../Types";
-import { useAllDogsContext } from "../Pages/AllDogs";
+import { useAllDogsContext } from '../providers/useAllDogs';
 import { useCurrentUser } from "../providers/useCurrentUser";
 day.extend(advancedFormat);
 
