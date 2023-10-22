@@ -3,6 +3,7 @@ import Logo from './Logo';
 import NavLinks from './NavLinks';
 import { useDashboardContext } from '../providers/useDashboardContext';
 
+
 export const BigSidebar = () => {
   const { showSidebar } = useDashboardContext();
   return (
@@ -16,7 +17,7 @@ export const BigSidebar = () => {
           <header>
             <Logo />
           </header>
-          <NavLinks isBigSidebar />
+          <NavLinks isBigSidebar={true} />
         </div>
       </div>
     </Wrapper>

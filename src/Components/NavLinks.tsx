@@ -3,7 +3,7 @@ import { useCurrentUser } from '../providers/useCurrentUser';
 import { links } from '../utils/links';
 import { NavLink } from 'react-router-dom';
 
-function NavLinks() {
+function NavLinks({ isBigSidebar }: { isBigSidebar?: boolean }) {
   const { toggleSidebar } = useDashboardContext();
   const { user } = useCurrentUser();
   return (
@@ -14,7 +14,8 @@ function NavLinks() {
           to={link.path}
           key={link.text}
           className="nav-link"
-          onClick={toggleSidebar}
+          onClick={isBigSidebar ? undefined : toggleSidebar}
+          end
         >
           <span className="icon">{link.icon}</span> {link.text}
         </NavLink>
