@@ -11,6 +11,5 @@ export const retrieveCurrentUser = () => {
 };
 
 export const addUserToLocalStorage = ({ user }: { user: User }) => {
-  
   localStorage.setItem('user', JSON.stringify(user));
 };

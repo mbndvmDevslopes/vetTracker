@@ -3,5 +3,3 @@ export const retrieveCurrentUser = () => {
   const user = userFromLocalStorage ? JSON.parse(userFromLocalStorage) : null;
   return user;
 };
-
-

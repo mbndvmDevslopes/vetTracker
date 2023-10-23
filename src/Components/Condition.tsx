@@ -1,8 +1,8 @@
-import { Link, redirect } from "react-router-dom";
-import Wrapper from "../assets/Wrappers/Condition";
-import axios from "axios";
-import { toast } from "react-toastify";
-import { useConditions } from "../providers/useConditions";
+import { Link, redirect } from 'react-router-dom';
+import Wrapper from '../assets/Wrappers/Condition';
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { useConditions } from '../providers/useConditions';
 
 export const Condition = ({
   id,
@@ -24,22 +24,22 @@ export const Condition = ({
         return conditionsInUse;
       }
     } catch (error) {
-      console.error("Error:", error);
-      toast.error("There was an error fetching the conditions");
+      console.error('Error:', error);
+      toast.error('There was an error fetching the conditions');
     }
   };
   const deleteCondition = async (id: number) => {
     const conditionsInUse = await getConditionsInUse(id);
     if (conditionsInUse.length > 0) {
-      toast.error("This condition is in use and may not be deleted");
+      toast.error('This condition is in use and may not be deleted');
     } else {
       try {
         await axios.delete(`http://localhost:3000/conditions/${id}`);
-        toast.success("The condition was deleted");
+        toast.success('The condition was deleted');
         refetchConditions();
-        return redirect("/dashboard/all-conditions");
+        return redirect('/dashboard/all-conditions');
       } catch (error) {
-        toast.error("There was an error deleting the condition");
+        toast.error('There was an error deleting the condition');
         return;
       }
     }

@@ -1,11 +1,11 @@
-import { FormEvent, useState } from "react";
-import { useConditions } from "../providers/useConditions";
-import { FormRowControlledInput } from "../Components/FormRowControlledInput";
-import { toast } from "react-toastify";
-import axios from "axios";
-import { Conditions } from "../Types";
-import { capitalize } from "../utils/transformations";
-import { useNavigate } from "react-router-dom";
+import { FormEvent, useState } from 'react';
+import { useConditions } from '../providers/useConditions';
+import { FormRowControlledInput } from '../Components/FormRowControlledInput';
+import { toast } from 'react-toastify';
+import axios from 'axios';
+import { Conditions } from '../Types';
+import { capitalize } from '../utils/transformations';
+import { useNavigate } from 'react-router-dom';
 
 export const AddCondition = () => {
   const { conditions, refetchConditions } = useConditions();
@@ -39,25 +39,25 @@ export const AddCondition = () => {
     e.preventDefault();
     const existingCondition = checkIfConditionExists();
     if (existingCondition) {
-      toast.error("This condition already exists");
+      toast.error('This condition already exists');
       return;
     }
     try {
-      const response = await axios.post("http://localhost:3000/conditions", {
+      const response = await axios.post('http://localhost:3000/conditions', {
         conditionName: newCondition.conditionName,
         /* isActive: true, */
       });
 
       await Promise.resolve(response.data);
 
-      toast.success("Condition added successfully");
+      toast.success('Condition added successfully');
 
       refetchConditions();
-      navigate("/dashboard/all-conditions");
+      navigate('/dashboard/all-conditions');
 
       return response;
     } catch (error) {
-      toast.error("Error adding condition");
+      toast.error('Error adding condition');
     }
   };
 

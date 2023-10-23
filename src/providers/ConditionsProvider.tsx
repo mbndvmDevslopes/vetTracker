@@ -1,12 +1,7 @@
-import React, {
-  createContext,
-  useState,
-  useEffect,
-  ReactNode,
-} from "react";
-import { Conditions } from "../Types";
-import { getConditions } from "../api";
-import { useCurrentUser } from "./useCurrentUser";
+import React, { createContext, useState, useEffect, ReactNode } from 'react';
+import { Conditions } from '../Types';
+import { getConditions } from '../api';
+import { useCurrentUser } from './useCurrentUser';
 
 type TConditionsProvider = {
   conditions: Conditions[] | null;

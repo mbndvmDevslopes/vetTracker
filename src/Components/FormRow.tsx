@@ -1,12 +1,13 @@
-
 type FormRowProps = {
   type: string;
   name: string;
   labelText: string;
   defaultValue?: string | number | string[] | readonly string[];
   max?: string | undefined;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement|HTMLSelectElement>) => void;
-  value?:string|number|string[]|undefined 
+  onChange?: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => void;
+  value?: string | number | string[] | undefined;
 };
 
 export const FormRow: React.FC<FormRowProps> = ({

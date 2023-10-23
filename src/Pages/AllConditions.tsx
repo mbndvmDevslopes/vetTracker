@@ -1,9 +1,9 @@
-import { ConditionsContainer } from "../Components/ConditionsContainer";
-import { useConditions } from "../providers/useConditions";
-import SearchConditions from "../Components/SearchConditions";
-import { Conditions } from "../Types";
-import { useEffect} from "react";
-import { Link } from "react-router-dom";
+import { ConditionsContainer } from '../Components/ConditionsContainer';
+import { useConditions } from '../providers/useConditions';
+import SearchConditions from '../Components/SearchConditions';
+import { Conditions } from '../Types';
+import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 type AllConditionsProps = {
   searchResults: Conditions[];

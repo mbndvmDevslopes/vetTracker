@@ -1,9 +1,9 @@
-import { Form } from "react-router-dom";
-import { FormRow } from "./FormRow";
-import Wrapper from "../assets/Wrappers/DashboardFormPage";
+import { Form } from 'react-router-dom';
+import { FormRow } from './FormRow';
+import Wrapper from '../assets/Wrappers/DashboardFormPage';
 
-import { Conditions } from "../Types";
-import { useConditions } from "../providers/useConditions";
+import { Conditions } from '../Types';
+import { useConditions } from '../providers/useConditions';
 
 const Search: React.FC<{
   setSearchResults: React.Dispatch<React.SetStateAction<Conditions[]>>;

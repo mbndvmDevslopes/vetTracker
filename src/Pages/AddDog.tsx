@@ -1,31 +1,31 @@
-import { useState, FormEvent } from "react";
-import { useNavigate } from "react-router-dom";
-import Wrapper from "../assets/Wrappers/DashboardFormPage";
-import { toast } from "react-toastify";
-import axios from "axios";
-import { validateWeight } from "../utils/validation";
-import { SubmitBtn } from "../Components/SubmitBtn";
+import { useState, FormEvent } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Wrapper from '../assets/Wrappers/DashboardFormPage';
+import { toast } from 'react-toastify';
+import axios from 'axios';
+import { validateWeight } from '../utils/validation';
+import { SubmitBtn } from '../Components/SubmitBtn';
 
-import { useConditions } from "../providers/useConditions";
-import { useCurrentUser } from "../providers/useCurrentUser";
-import { FormRowControlledInput } from "../Components/FormRowControlledInput";
-import { capitalize } from "../utils/transformations";
+import { useConditions } from '../providers/useConditions';
+import { useCurrentUser } from '../providers/useCurrentUser';
+import { FormRowControlledInput } from '../Components/FormRowControlledInput';
+import { capitalize } from '../utils/transformations';
 
 const AddDog = () => {
   const { user } = useCurrentUser();
   const { conditions } = useConditions();
 
   const [newDog, setNewDog] = useState({
-    sex: "F",
-    name: "Fido",
-    breed: "Poodle",
-    birthDate: "",
+    sex: 'F',
+    name: 'Fido',
+    breed: 'Poodle',
+    birthDate: '',
     weight: 0,
-    dateVisited: "",
-    notes: "",
+    dateVisited: '',
+    notes: '',
     vetId: user?.id,
     isActive: true,
-    ownerName: "",
+    ownerName: '',
   });
   const [selectedConditions, setSelectedConditions] = useState<string[]>([]);
   const navigate = useNavigate();
@@ -33,7 +33,7 @@ const AddDog = () => {
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    if (e.target.type === "text") {
+    if (e.target.type === 'text') {
       setNewDog({ ...newDog, [e.target.name]: capitalize(e.target.value) });
       return;
     }
@@ -50,30 +50,30 @@ const AddDog = () => {
     e.preventDefault();
 
     if (!validateWeight(newDog.weight)) {
-      toast.error("Weight must be a number greater than zero");
+      toast.error('Weight must be a number greater than zero');
       return false;
     }
 
     try {
       // Add the dog to the database
       const dogResponse = await axios.post(
-        "http://localhost:3000/dogs",
+        'http://localhost:3000/dogs',
         newDog
       );
       const newDogId = dogResponse.data.id;
       const conditionPromises = selectedConditions.map(async (conditionId) => {
-        await axios.post("http://localhost:3000/dogsConditions", {
+        await axios.post('http://localhost:3000/dogsConditions', {
           dogId: newDogId,
           conditionId: parseInt(conditionId),
         });
       });
       await Promise.all(conditionPromises);
 
-      toast.success("Dog added successfully");
-      navigate("/dashboard/all-dogs");
+      toast.success('Dog added successfully');
+      navigate('/dashboard/all-dogs');
     } catch (error) {
-      console.error("Error adding dog:", error);
-      toast.error("Failed to add dog");
+      console.error('Error adding dog:', error);
+      toast.error('Failed to add dog');
       return error;
     }
   };
@@ -124,7 +124,7 @@ const AddDog = () => {
             labelText="Birth Date"
             value={newDog.birthDate}
             onChange={handleChange}
-            max={new Date().toLocaleDateString("en-ca")}
+            max={new Date().toLocaleDateString('en-ca')}
           />
 
           <FormRowControlledInput
@@ -133,7 +133,7 @@ const AddDog = () => {
             labelText="Date Visited"
             value={newDog.dateVisited}
             onChange={handleChange}
-            max={new Date().toLocaleDateString("en-ca")}
+            max={new Date().toLocaleDateString('en-ca')}
           />
           <div className="form-row">
             <label htmlFor="notes" className="form-label">
@@ -154,7 +154,7 @@ const AddDog = () => {
               className="multi-select form-select"
               name="condition"
               id="condition"
-              multiple 
+              multiple
               onChange={handleMultiselectChange}
               value={selectedConditions}
             >

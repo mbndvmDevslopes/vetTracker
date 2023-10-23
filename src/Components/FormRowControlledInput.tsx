@@ -1,12 +1,12 @@
-import { ChangeEvent } from "react";
+import { ChangeEvent } from 'react';
 
 type FormRowControlledInputProps = {
   type: string;
   name: string;
   labelText: string;
-max?:string| undefined;
+  max?: string | undefined;
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
-  value:string
+  value: string;
 };
 
 export const FormRowControlledInput: React.FC<FormRowControlledInputProps> = ({
@@ -15,11 +15,8 @@ export const FormRowControlledInput: React.FC<FormRowControlledInputProps> = ({
   labelText,
   onChange,
   value,
-  max
+  max,
 }) => {
-
-
-
   return (
     <div className="form-row">
       <label htmlFor={name} className="form-label">

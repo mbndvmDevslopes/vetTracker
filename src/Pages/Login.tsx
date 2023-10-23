@@ -1,14 +1,10 @@
-import {
-  Link,
-  useNavigate,
-} from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Wrapper from '../assets/Wrappers/RegisterPage';
 import Logo from '../Components/Logo';
 import { useCurrentUser } from '../providers/useCurrentUser';
 import { FormEvent, useState } from 'react';
 import { FormRowControlledInput } from '../Components/FormRowControlledInput';
 import { toast } from 'react-toastify';
-
 
 const Login = () => {
   const { login, isLoading } = useCurrentUser();
@@ -26,7 +22,6 @@ const Login = () => {
         // Navigate to /dashboard after successful login
         navigate('/dashboard');
       } else {
-      
         toast.error('Invalid credentials');
         navigate('/');
       }
@@ -41,7 +36,7 @@ const Login = () => {
 
   const handleLoginSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
- 
+
     loginUser();
   };
 

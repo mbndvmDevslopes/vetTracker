@@ -1,15 +1,15 @@
-import { Link, useNavigate } from "react-router-dom";
-import Wrapper from "../assets/Wrappers/Dog";
-import { DogInfo } from "./DogInfo";
-import { DogType } from "../Types";
-import axios from "axios";
-import day from "dayjs";
-import advancedFormat from "dayjs/plugin/advancedFormat";
-import { useState } from "react";
-import { toast } from "react-toastify";
-import { Conditions } from "../Types";
+import { Link, useNavigate } from 'react-router-dom';
+import Wrapper from '../assets/Wrappers/Dog';
+import { DogInfo } from './DogInfo';
+import { DogType } from '../Types';
+import axios from 'axios';
+import day from 'dayjs';
+import advancedFormat from 'dayjs/plugin/advancedFormat';
+import { useState } from 'react';
+import { toast } from 'react-toastify';
+import { Conditions } from '../Types';
 import { useAllDogsContext } from '../providers/useAllDogs';
-import { useCurrentUser } from "../providers/useCurrentUser";
+import { useCurrentUser } from '../providers/useCurrentUser';
 day.extend(advancedFormat);
 
 export const Dog: React.FC<DogType> = ({

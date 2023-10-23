@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 import { useCurrentUser } from '../providers/useCurrentUser';
 import { FormEvent, useState } from 'react';
-import { capitalize} from '../utils/transformations';
+import { capitalize } from '../utils/transformations';
 
 type AmendedUser = {
   name: string;
@@ -25,7 +25,7 @@ export const Profile: React.FC = () => {
     email: user!.email,
   });
 
-  const updateUserInLocalStorage = (updatedUserData:AmendedUser) => {
+  const updateUserInLocalStorage = (updatedUserData: AmendedUser) => {
     const currentUser = user;
     if (currentUser) {
       const updatedUser = { ...currentUser, ...updatedUserData };
@@ -41,21 +41,24 @@ export const Profile: React.FC = () => {
     >
   ) => {
     if (e.target.type === 'text') {
-    setAmendedUser({ ...amendedUser, [e.target.name]: capitalize(e.target.value) });
-    return;
+      setAmendedUser({
+        ...amendedUser,
+        [e.target.name]: capitalize(e.target.value),
+      });
+      return;
     }
     setAmendedUser({ ...amendedUser, [e.target.name]: e.target.value });
   };
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const  id  = user?.id;
+    const id = user?.id;
     try {
       const response = await axios.patch(
         `http://localhost:3000/users/${id}`,
         amendedUser
       );
       const editedUser = response.data;
-      updateUserInLocalStorage(editedUser)
+      updateUserInLocalStorage(editedUser);
       setUser(editedUser);
       refetchUser();
       return toast.success('Profile updated successfully');

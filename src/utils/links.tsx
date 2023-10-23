@@ -8,5 +8,4 @@ export const links = [
   { text: 'all dogs', path: 'all-dogs', icon: <PiDogBold /> },
   { text: 'all conditions', path: 'all-conditions', icon: <GiSittingDog /> },
   { text: 'profile', path: 'profile', icon: <CgProfile /> },
-  
 ];

@@ -5,7 +5,6 @@ import { useAllDogsContext } from '../providers/useAllDogs';
 export const DogsContainer = () => {
   const { allDogs, searchResults } = useAllDogsContext();
 
-
   if (allDogs?.length === 0) {
     return (
       <Wrapper>

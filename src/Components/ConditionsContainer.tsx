@@ -1,15 +1,15 @@
-
 import Wrapper from '../assets/Wrappers/DogsContainer';
 
 import { useConditions } from '../providers/useConditions';
 import { Condition } from './Condition';
-import { Conditions  } from '../Types';
+import { Conditions } from '../Types';
 
-
-export const ConditionsContainer = ({searchResults}: {searchResults: Conditions[]}) => {
-
-
-   const { conditions } = useConditions(); 
+export const ConditionsContainer = ({
+  searchResults,
+}: {
+  searchResults: Conditions[];
+}) => {
+  const { conditions } = useConditions();
 
   if (conditions?.length === 0) {
     return (

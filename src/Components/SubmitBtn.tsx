@@ -1,6 +1,5 @@
 import { useNavigation } from 'react-router-dom';
 
-
 type SubmitBtnProps = {
   formBtn: boolean;
 };

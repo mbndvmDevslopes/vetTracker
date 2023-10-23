@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:3000'; 
+const API_URL = 'http://localhost:3000';
 
 export const getUserData = async (userId: number) => {
   try {
@@ -12,7 +12,6 @@ export const getUserData = async (userId: number) => {
   }
 };
 export const getUser = async (email: string) => {
-  
   try {
     const response = await axios.get(`${API_URL}/users?email=${email}`);
 
@@ -22,27 +21,24 @@ export const getUser = async (email: string) => {
   } catch (error) {
     console.error('Error fetching user data:', error);
   }
-  
 };
 
 export const getConditions = async () => {
   try {
     const response = await axios.get(`${API_URL}/conditions`);
     return response.data;
-
   } catch (error) {
     console.error('Error fetching conditions:', error);
     throw error;
   }
-}
+};
 
 export const getDogs = async () => {
-  try { 
-    const response =await axios.get(`${API_URL}/dogs`);
+  try {
+    const response = await axios.get(`${API_URL}/dogs`);
     return response.data;
-
-} catch(error) {
-  console.error('Error fetching dogs:', error);
-  throw error;
-}
-}
+  } catch (error) {
+    console.error('Error fetching dogs:', error);
+    throw error;
+  }
+};

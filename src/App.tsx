@@ -1,19 +1,19 @@
-import "./App.css";
+import './App.css';
 
-import { createBrowserRouter,  RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
-import Register from "./Pages/Register";
-import Login from "./Pages/Login";
-import Home from "./Pages/Home";
-import Landing from "./Pages/LandingPage";
-import Error from "./Pages/Error";
-import AllDogs from "./Pages/AllDogs";
-import { Profile } from "./Pages/Profile";
-import Admin from "./Pages/Admin";
-import AddDog from "./Pages/AddDog";
-import DashboardLayout from "./Pages/DashboardLayout";
-import { AllConditions } from "./Pages/AllConditions";
-import { EditDog } from "./Pages/EditDog";
+import Register from './Pages/Register';
+import Login from './Pages/Login';
+import Home from './Pages/Home';
+import Landing from './Pages/LandingPage';
+import Error from './Pages/Error';
+import AllDogs from './Pages/AllDogs';
+import { Profile } from './Pages/Profile';
+import Admin from './Pages/Admin';
+import AddDog from './Pages/AddDog';
+import DashboardLayout from './Pages/DashboardLayout';
+import { AllConditions } from './Pages/AllConditions';
+import { EditDog } from './Pages/EditDog';
 
 import { action as registerAction } from './Actions.Loaders/registerAction';
 import { action as editDogAction } from './Actions.Loaders/editDogActions';
@@ -24,16 +24,14 @@ import { Conditions } from './Types';
 import { DogsContainer } from './Components/DogsContainer';
 import { checkDefaultTheme } from './utils/CheckDefaultTheme';
 
-
-
 checkDefaultTheme();
 
 function App() {
   const [searchResults, setSearchResults] = useState<Conditions[]>([]);
   const router = createBrowserRouter([
     {
-      path: "/",
-      /* element: <LoginForm />, */
+      path: '/',
+
       element: <Home />,
       errorElement: <Error />,
       children: [
@@ -42,19 +40,17 @@ function App() {
           element: <Landing />,
         },
         {
-          path: "register",
+          path: 'register',
           element: <Register />,
           action: registerAction,
         },
         {
-          path: "login",
+          path: 'login',
           element: <Login />,
-         /*  action: loginAction, */
         },
         {
-          path: "dashboard",
+          path: 'dashboard',
           element: <DashboardLayout />,
-          /*  loader: userLoader, */
 
           children: [
             {
@@ -62,17 +58,17 @@ function App() {
               element: <AddDog />,
             },
             {
-              path: "all-dogs",
+              path: 'all-dogs',
               element: <AllDogs children={<DogsContainer />} />,
             },
 
             {
-              path: "profile",
+              path: 'profile',
               element: <Profile />,
             },
-            { path: "admin", element: <Admin /> },
+            { path: 'admin', element: <Admin /> },
             {
-              path: "all-conditions",
+              path: 'all-conditions',
               element: (
                 <AllConditions
                   searchResults={searchResults}
@@ -81,16 +77,12 @@ function App() {
               ),
             },
             {
-              path: "edit-dog/:id",
+              path: 'edit-dog/:id',
               element: <EditDog />,
-              action :editDogAction /* ({ request, params }: { params: Params; user: User }) =>
-                Promise<false | Response | undefined> */,
-              loader:editDogLoader  /* ({ params }: { params: Params }) =>
-                Promise<
-                  Response | { dog: DogType; existingConditions: Conditions[] }> */
-                ,
+              action: editDogAction,
+              loader: editDogLoader,
             },
-            { path: "add-condition", element: <AddCondition /> },
+            { path: 'add-condition', element: <AddCondition /> },
           ],
         },
       ],

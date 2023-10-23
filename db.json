@@ -139,6 +139,13 @@
       "email": "chet@gmail.com",
       "password": "cat",
       "id": 22
+    },
+    {
+      "name": "Jane",
+      "lastName": "Doe",
+      "email": "jd@gmail.com",
+      "password": "dog",
+      "id": 23
     }
   ],
   "dogs": [
@@ -211,9 +218,9 @@
       "sex": "M",
       "name": "Bisby",
       "breed": "Poodle",
-      "birthDate": "2021-09-29T00:00:00.000Z",
+      "birthDate": "2021-09-29",
       "weight": 2,
-      "dateVisited": "2023-09-27T00:00:00.000Z",
+      "dateVisited": "2023-09-27",
       "notes": "This dog was not sick",
       "vetId": 3,
       "isActive": false,
@@ -361,19 +368,6 @@
       "isActive": true,
       "ownerName": "Ann Johnson",
       "id": 29
-    },
-    {
-      "sex": "M",
-      "name": "Bismith",
-      "breed": "Antiqua",
-      "birthDate": "2022-10-05",
-      "weight": 65,
-      "dateVisited": "2023-10-04",
-      "notes": "Nothing to note",
-      "vetId": 3,
-      "isActive": false,
-      "ownerName": "Carl Cheese",
-      "id": 30
     }
   ],
   "conditions": [
@@ -561,11 +555,6 @@
       "dogId": 16,
       "conditionId": 3,
       "id": 43
-    },
-    {
-      "dogId": 30,
-      "conditionId": 11,
-      "id": 44
     }
   ]
 }
