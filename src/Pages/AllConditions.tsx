@@ -26,7 +26,7 @@ export const AllConditions: React.FC<AllConditionsProps> = ({
   return (
     <>
       <h2 className="conditions-title">Conditions</h2>
-      <Link to={`../add-condition`} className="btn edit-btn">
+      <Link to={`../add-condition`} className="btn edit-btn add-condition">
         Add Condition
       </Link>
       <SearchConditions setSearchResults={setSearchResults} />

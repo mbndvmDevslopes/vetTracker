@@ -37,7 +37,7 @@ export const action: ActionFunction = async ({ request }) => {
       },
     });
 
-    if (response.status !== 200) {
+    if (response.status !== 201) {
       toast.error('Error');
       return null;
     }

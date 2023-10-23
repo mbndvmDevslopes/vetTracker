@@ -26,14 +26,13 @@ const Search: React.FC<{
   return (
     <Wrapper>
       <Form className="form">
-        <h5 className="form-title">search form</h5>
         <div className="form-center search">
           <FormRow
             type="search"
             name="search"
             defaultValue=""
             onChange={handleSearch}
-            labelText="Search"
+            labelText=""
           />
         </div>
       </Form>
