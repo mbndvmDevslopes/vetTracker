@@ -6,9 +6,10 @@ import axios from 'axios';
 import { useCurrentUser } from '../providers/useCurrentUser';
 import { FormEvent, useState } from 'react';
 import { capitalize } from '../utils/transformations';
+import customFetch from '../utils/customFetch';
 
 type AmendedUser = {
-  name: string;
+  firstName: string;
   lastName: string;
   email: string;
 };
@@ -20,7 +21,7 @@ export const Profile: React.FC = () => {
   const isSubmitting = navigation.state === 'submitting';
 
   const [amendedUser, setAmendedUser] = useState<AmendedUser>({
-    name: user!.name,
+    firstName: user!.firstName,
     lastName: user!.lastName,
     email: user!.email,
   });
@@ -51,15 +52,16 @@ export const Profile: React.FC = () => {
   };
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const id = user?.id;
+    /* const id = user?.id; */
     try {
-      const response = await axios.patch(
+      /*   const response = await axios.patch(
         `http://localhost:3000/users/${id}`,
         amendedUser
-      );
-      const editedUser = response.data;
+      ); */
+      await customFetch.patch('/user/update-user', amendedUser);
+      /*  const editedUser = response.data;
       updateUserInLocalStorage(editedUser);
-      setUser(editedUser);
+      setUser(editedUser); */
       refetchUser();
       return toast.success('Profile updated successfully');
     } catch (error) {
@@ -74,10 +76,10 @@ export const Profile: React.FC = () => {
         <div className="form-center">
           <FormRowControlledInput
             type="text"
-            name="name"
-            labelText="name"
+            name="firstName"
+            labelText="First Name"
             onChange={handleChange}
-            value={amendedUser?.name}
+            value={amendedUser?.firstName}
           />
           <FormRowControlledInput
             type="text"

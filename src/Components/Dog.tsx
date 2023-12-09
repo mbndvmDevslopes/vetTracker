@@ -2,14 +2,13 @@ import { Link, useNavigate } from 'react-router-dom';
 import Wrapper from '../assets/Wrappers/Dog';
 import { DogInfo } from './DogInfo';
 import { DogType } from '../Types';
-import axios from 'axios';
 import day from 'dayjs';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
-import { Conditions } from '../Types';
 import { useAllDogsContext } from '../providers/useAllDogs';
 import { useCurrentUser } from '../providers/useCurrentUser';
+import customFetch from '../utils/customFetch';
 day.extend(advancedFormat);
 
 export const Dog: React.FC<DogType> = ({
@@ -27,13 +26,13 @@ export const Dog: React.FC<DogType> = ({
   const { isLoading, setIsLoading } = useCurrentUser();
 
   const toggleActive = async () => {
-    setIsActive(!isActive);
-
     try {
-      await axios.patch(`http://localhost:3000/dogs/${id}`, {
-        isActive: isActive,
+      await customFetch.patch(`dogs/${id}/activeStatus`, {
+        isActive: !isActive,
       });
+      setIsActive(!isActive);
     } catch (error) {
+      setIsActive(!isActive);
       console.log(error);
     }
   };
@@ -41,17 +40,19 @@ export const Dog: React.FC<DogType> = ({
     setIsLoading(true);
     try {
       await deleteDogConditions(id);
-      await axios.delete(`http://localhost:3000/dogs/${id}`);
+      await customFetch.delete(`dogs/${id}`);
       toast.success('Dog successfully Deleted');
-      reFetchAllDogs(vetId);
+      reFetchAllDogs();
       navigate('/dashboard/all-dogs');
     } catch (error) {
       toast.error('Error deleting dog');
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  const deleteDogConditions = async (id: number) => {
-    try {
+  const deleteDogConditions = async (id: string) => {
+    /* try {
       // Fetch all dogsConditions records with the given dogId
       const response = await axios.get(
         `http://localhost:3000/dogsConditions?dogId=${id}`
@@ -70,9 +71,14 @@ export const Dog: React.FC<DogType> = ({
       // Wait for all delete operations to complete
       await Promise.all(deletePromises);
     } catch (error) {
-      console.error(error);
+      console.error(error);number
     } finally {
       setIsLoading(false);
+    } */
+    try {
+      await customFetch.delete(`dogs/${id}/dogsConditions`);
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -95,7 +101,7 @@ export const Dog: React.FC<DogType> = ({
         </div>
         <footer className="actions">
           <Link to={`../edit-dog/${id}`} className="btn edit-btn">
-            Edit
+            Edit/View
           </Link>{' '}
           <button type="button" className="btn edit-btn" onClick={toggleActive}>
             {isActive ? 'Set inactive' : 'Set as active'}

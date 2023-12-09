@@ -1,5 +1,5 @@
-import { createContext, useState } from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { createContext, useEffect, useState } from 'react';
+import { Outlet, redirect, useNavigate } from 'react-router-dom';
 import { BigSidebar } from '../Components/BigSidebar';
 import SmallSidebar from '../Components/SmallSidebar';
 import Wrapper from '../assets/Wrappers/Dashboard';
@@ -8,6 +8,8 @@ import { checkDefaultTheme } from '../utils/CheckDefaultTheme';
 import { toast } from 'react-toastify';
 import { useCurrentUser } from '../providers/useCurrentUser';
 import { useConditions } from '../providers/useConditions';
+import customFetch from '../utils/customFetch';
+import { AxiosError } from 'axios';
 
 type TDashboardProvider = {
   toggleSidebar: () => void;
@@ -24,13 +26,14 @@ export const DashboardContext = createContext<TDashboardProvider>(
 
 const DashboardLayout = () => {
   const navigate = useNavigate();
-
-  const { user, setUser } = useCurrentUser();
+  const { user, setUser, getCurrentUser } = useCurrentUser();
   const { conditions } = useConditions();
 
   const [showSidebar, setShowSidebar] = useState<boolean>(false);
   const [isDarkTheme, setIsDarkTheme] = useState<boolean>(checkDefaultTheme());
-
+  useEffect(() => {
+    getCurrentUser();
+  }, []);
   const toggleDarkTheme = () => {
     const newDarkTheme = !isDarkTheme;
     setIsDarkTheme(newDarkTheme);
@@ -43,16 +46,20 @@ const DashboardLayout = () => {
     setShowSidebar(!showSidebar);
   };
 
-  const logoutUser = () => {
-    removeUserFromLocalStorage();
-    setUser(null);
-    navigate('/');
-    toast.success('Logging out');
+  const logoutUser = async () => {
+    try {
+      await customFetch.get('/auth/logout');
+      toast.success('Logout Successful');
+      setUser(null);
+
+      navigate('/');
+    } catch (error) {
+      if (error instanceof AxiosError && error.response) {
+        toast.error(error?.response?.data?.msg);
+      }
+    }
   };
 
-  const removeUserFromLocalStorage = () => {
-    localStorage.removeItem('user');
-  };
   return (
     <DashboardContext.Provider
       value={{

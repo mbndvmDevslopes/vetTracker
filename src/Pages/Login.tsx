@@ -5,9 +5,11 @@ import { useCurrentUser } from '../providers/useCurrentUser';
 import { FormEvent, useState } from 'react';
 import { FormRowControlledInput } from '../Components/FormRowControlledInput';
 import { toast } from 'react-toastify';
+import customFetch from '../utils/customFetch';
+import { AxiosError } from 'axios';
 
-const Login = () => {
-  const { login, isLoading } = useCurrentUser();
+export const Login = () => {
+  const { isLoading, setIsLoading } = useCurrentUser();
   const [userLoginData, setUserLoginData] = useState({
     email: '',
     password: '',
@@ -15,19 +17,17 @@ const Login = () => {
   const navigate = useNavigate();
 
   const loginUser = async () => {
+    setIsLoading(true);
     try {
-      const loggedInUser = await login(userLoginData);
-      // Check if login was successful
-      if (loggedInUser) {
-        // Navigate to /dashboard after successful login
-        navigate('/dashboard');
-      } else {
-        toast.error('Invalid credentials');
-        navigate('/');
-      }
+      await customFetch.post('/auth/login', userLoginData);
+      toast.success('Login Successful');
+
+      navigate('/dashboard');
     } catch (error) {
-      console.error(error);
-      navigate('/');
+      if (error instanceof AxiosError && error.response) {
+        toast.error(error?.response?.data?.msg);
+      }
+      setIsLoading(false);
     }
   };
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -74,5 +74,3 @@ const Login = () => {
     </Wrapper>
   );
 };
-
-export default Login;

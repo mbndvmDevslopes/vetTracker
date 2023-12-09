@@ -1,7 +1,9 @@
 import React, { createContext, useState, useEffect, ReactNode } from 'react';
 import { Conditions } from '../Types';
-import { getConditions } from '../api';
 import { useCurrentUser } from './useCurrentUser';
+import { AxiosError } from 'axios';
+import { toast } from 'react-toastify';
+import customFetch from '../utils/customFetch';
 
 type TConditionsProvider = {
   conditions: Conditions[] | null;
@@ -21,10 +23,12 @@ export const ConditionsProvider: React.FC<{ children: ReactNode }> = ({
 
   const refetchConditions = async () => {
     try {
-      const conditionsData = await getConditions();
-      setConditions(conditionsData);
+      const fetchAllConditions = await customFetch.get('/conditions');
+      setConditions(fetchAllConditions.data);
     } catch (error) {
-      console.error(error);
+      if (error instanceof AxiosError && error.response) {
+        toast.error(error?.response?.data?.msg);
+      }
     }
   };
 

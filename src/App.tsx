@@ -3,7 +3,7 @@ import './App.css';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import Register from './Pages/Register';
-import Login from './Pages/Login';
+import { Login } from './Pages/Login';
 import Home from './Pages/Home';
 import Landing from './Pages/LandingPage';
 import Error from './Pages/Error';

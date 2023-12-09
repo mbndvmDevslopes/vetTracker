@@ -2,18 +2,20 @@ import { createContext, useState, useEffect, ReactNode } from 'react';
 import { toast } from 'react-toastify';
 import { DogsContainer } from '../Components/DogsContainer';
 import Search from '../Components/Search';
-import axios from 'axios';
+import { AxiosError } from 'axios';
 import { useCurrentUser } from '../providers/useCurrentUser';
 
 import { DogType } from '../Types';
+import customFetch from '../utils/customFetch';
 
 type TAllDogsProviderTypes = {
   setAllDogs: React.Dispatch<React.SetStateAction<DogType[]>>;
   allDogs: DogType[] | undefined;
   setSearchResults: React.Dispatch<React.SetStateAction<DogType[]>>;
   searchResults: DogType[] | undefined;
-  removeDog: (dogId: number) => void;
-  reFetchAllDogs: (id: number) => void;
+  setDogFilter: (dogId: string) => void;
+  /* reFetchAllDogs: (id: string) => void; */
+  reFetchAllDogs: () => void;
 };
 
 export const AllDogsContext = createContext<TAllDogsProviderTypes>(
@@ -26,41 +28,38 @@ export const AllDogs: React.FC<{ children: ReactNode }> = () => {
   const [allDogs, setAllDogs] = useState<DogType[]>([]);
   const [searchResults, setSearchResults] = useState<DogType[]>([]);
 
-  const reFetchAllDogs = async (id: number) => {
+  const reFetchAllDogs = async () => {
     try {
-      const { data } = await axios.get(
-        `http://localhost:3000/dogs?vetId=${id}`
-      );
-      setAllDogs(data);
-      setSearchResults(data);
+      const fetchOneVetsDogs = await customFetch.get('/dogs');
+      setAllDogs(fetchOneVetsDogs.data);
+      console.log(user);
     } catch (error) {
-      toast.error('Error fetching all dogs:');
-      return null;
+      if (error instanceof AxiosError && error.response) {
+        toast.error(error?.response?.data?.msg);
+      }
     }
   };
 
   useEffect(() => {
-    const fetchAllDogs = async (id: number) => {
+    const fetchAllDogs = async () => {
       try {
-        const { data } = await axios.get(
-          `http://localhost:3000/dogs?vetId=${id}`
-        );
-        setAllDogs(data);
-        setSearchResults(data);
+        const fetchOneVetsDogs = await customFetch.get('/dogs');
+        setAllDogs(fetchOneVetsDogs.data);
+        setSearchResults(fetchOneVetsDogs.data);
       } catch (error) {
-        toast.error('Error fetching all dogs:');
+        toast.error("Error fetching user's dogs");
         return null;
       }
     };
     if (user) {
-      fetchAllDogs(user.id);
+      fetchAllDogs();
     }
-  }, []);
+  }, [user]);
 
-  const removeDog = (dogId: number) => {
+  const setDogFilter = (dogId: string) => {
     // Filter out the dog with the specified ID from the current list of dogs
-    const updatedDogs = allDogs.filter((dog) => dog.id !== dogId);
-    setAllDogs(updatedDogs);
+    const filteredDogs = allDogs.filter((dog) => dog.id !== dogId);
+    setAllDogs(filteredDogs);
   };
 
   return (
@@ -68,7 +67,7 @@ export const AllDogs: React.FC<{ children: ReactNode }> = () => {
       value={{
         allDogs,
         setAllDogs,
-        removeDog,
+        setDogFilter,
         searchResults,
         setSearchResults,
         reFetchAllDogs,

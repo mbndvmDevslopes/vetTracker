@@ -1,6 +1,6 @@
 export type DogType = {
-  id: number;
-  vetId: number;
+  id: string;
+  vetId: string;
   sex: string;
   name: string;
   breed: string;
@@ -13,19 +13,19 @@ export type DogType = {
 };
 
 export type User = {
-  id: number;
-  name: string;
+  id: string;
+  firstName: string;
   lastName: string;
   email: string;
   password: string;
 };
 
 export type DogsConditions = {
-  id: number;
+  id: string;
   dogId: number;
   conditionId: number;
 };
 export type Conditions = {
-  id: number;
+  id: string;
   conditionName: string;
 };

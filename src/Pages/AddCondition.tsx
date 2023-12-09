@@ -6,6 +6,7 @@ import axios from 'axios';
 import { Conditions } from '../Types';
 import { capitalize } from '../utils/transformations';
 import { useNavigate } from 'react-router-dom';
+import customFetch from '../utils/customFetch';
 
 export const AddCondition = () => {
   const { conditions, refetchConditions } = useConditions();
@@ -43,19 +44,24 @@ export const AddCondition = () => {
       return;
     }
     try {
-      const response = await axios.post('http://localhost:3000/conditions', {
+      /*  const response = await axios.post('http://localhost:3000/conditions', {
         conditionName: newCondition.conditionName,
         /* isActive: true, */
+      /*
       });
 
-      await Promise.resolve(response.data);
+      await Promise.resolve(response.data); */
+      console.log(newCondition.conditionName);
+      await customFetch.post('/conditions', {
+        conditionName: newCondition.conditionName,
+      });
 
       toast.success('Condition added successfully');
 
       refetchConditions();
       navigate('/dashboard/all-conditions');
 
-      return response;
+      /* return response; */
     } catch (error) {
       toast.error('Error adding condition');
     }

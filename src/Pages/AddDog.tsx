@@ -10,7 +10,49 @@ import { useConditions } from '../providers/useConditions';
 import { useCurrentUser } from '../providers/useCurrentUser';
 import { FormRowControlledInput } from '../Components/FormRowControlledInput';
 import { capitalize } from '../utils/transformations';
+import customFetch from '../utils/customFetch';
+/*
+import React, { useState } from 'react';
+import axios from 'axios';
 
+const CreateDogsConditions = ({ dogId }) => {
+  const [conditionIds, setConditionIds] = useState([]);
+
+  const handleCreateDogsConditions = async () => {
+    try {
+      const response = await axios.post(`/dogs/${dogId}/conditions`, {
+        conditionIds,
+      });
+
+      if (response.status === 201) {
+        console.log('DogsConditions created successfully');
+      } else {
+        console.error('Failed to create DogsConditions');
+      }
+    } catch (error) {
+      console.error('Error creating DogsConditions:', error);
+    }
+  };
+
+  return (
+    <div>
+      <h2>Create DogsConditions</h2>
+      <label>
+        Condition IDs (comma-separated):
+        <input
+          type="text"
+          value={conditionIds.join(',')}
+          onChange={(e) => setConditionIds(e.target.value.split(','))}
+        />
+      </label>
+      <button onClick={handleCreateDogsConditions}>Create DogsConditions</button>
+    </div>
+  );
+};
+
+export default CreateDogsConditions;
+
+*/
 const AddDog = () => {
   const { user } = useCurrentUser();
   const { conditions } = useConditions();
@@ -53,21 +95,25 @@ const AddDog = () => {
       toast.error('Weight must be a number greater than zero');
       return false;
     }
-
+    console.log(selectedConditions);
     try {
       // Add the dog to the database
-      const dogResponse = await axios.post(
+      /*  const dogResponse = await axios.post(
         'http://localhost:3000/dogs',
         newDog
-      );
-      const newDogId = dogResponse.data.id;
-      const conditionPromises = selectedConditions.map(async (conditionId) => {
+      ); */
+      const dogResponse = await customFetch.post('/dogs', newDog);
+      const newDogId = dogResponse.data.newDog.id;
+      await customFetch.post(`/dogs/${newDogId}/dogsConditions`, {
+        selectedConditions,
+      });
+      /*  const conditionPromises = selectedConditions.map(async (conditionId) => {
         await axios.post('http://localhost:3000/dogsConditions', {
           dogId: newDogId,
           conditionId: parseInt(conditionId),
         });
       });
-      await Promise.all(conditionPromises);
+      await Promise.all(conditionPromises); */
 
       toast.success('Dog added successfully');
       navigate('/dashboard/all-dogs');

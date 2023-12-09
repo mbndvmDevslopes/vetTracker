@@ -6,6 +6,10 @@ import { NavLink } from 'react-router-dom';
 function NavLinks({ isBigSidebar }: { isBigSidebar?: boolean }) {
   const { toggleSidebar } = useDashboardContext();
   const { user } = useCurrentUser();
+  if (!user) {
+    // You can render a loading state or simply return null if user is not available yet
+    return null;
+  }
   return (
     <div className="nav-links">
       <h4>{`Dr. ${user?.lastName}`}</h4>

@@ -1,6 +1,10 @@
 import axios from 'axios';
+import customFetch from './utils/customFetch';
 
 const API_URL = 'http://localhost:3000';
+/* export const fetchOneVetsDogs = await customFetch.get('/dogs');
+export const fetchAllConditions = await customFetch.get('/conditions'); */
+
 
 export const getUserData = async (userId: number) => {
   try {
