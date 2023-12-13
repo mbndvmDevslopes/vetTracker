@@ -1,11 +1,15 @@
 import { toast } from 'react-toastify';
 import { DogType, DogsConditions } from '../Types';
-import { capitalizeAndTrim, validateDate } from '../utils/transformations';
+import {
+  capitalizeAndTrim,
+  validateDate,
+  visitDateNotBeforeBirthDate,
+} from '../utils/transformations';
 import { validateWeight } from '../utils/validation';
 import { ActionFunction, redirect } from 'react-router-dom';
 import customFetch from '../utils/customFetch';
 
-const postConditions = async (dogId: string, formConditions: number[]) => {
+const postConditions = async (dogId: string, formConditions: string[]) => {
   try {
     await customFetch.delete(`/dogs/${dogId}/dogsConditions`);
     await customFetch.post(`/dogs/${dogId}/dogsConditions`, {
@@ -67,13 +71,14 @@ const getUserId = async () => {
   return id;
 }; */
 
-const convertFormIdsToNumbers = (strIds: FormDataEntryValue[]) =>
+/* const convertFormIdsToNumbers = (strIds: FormDataEntryValue[]) =>
   strIds.map((condition: FormDataEntryValue) => {
     if (typeof condition === 'string') {
       return parseInt(condition);
     }
-  });
+  }); */
 const getFormDataDate = (value: FormDataEntryValue | null): string => {
+  console.log('birthday', typeof value, value);
   if (value instanceof Date) {
     return value.toISOString();
   }
@@ -90,10 +95,12 @@ export const action: ActionFunction = async ({ request, params }) => {
     sex: capitalizeAndTrim(formData.get('sex')?.toString()),
     name: capitalizeAndTrim(formData.get('name')?.toString()),
     breed: capitalizeAndTrim(formData.get('breed')?.toString()),
-    /* birthDate: new Date(formData.get('birthDate') as string) || new Date(), */
+    /*  birthDate: new Date(formData.get('birthDate') as string) || new Date(), */
+    birthDate: formData.get('birthDate') as string,
 
-    birthDate: getFormDataDate(formData.get('birthDate')),
-    dateVisited: getFormDataDate(formData.get('dateVisited')),
+    /* birthDate: getFormDataDate(formData.get('birthDate')), */
+    /* birthDate: formData.get('birthDate'?toString()), */
+    dateVisited: formData.get('dateVisited') as string,
 
     weight: parseFloat(formData.get('weight') as string) || 0,
 
@@ -109,9 +116,11 @@ export const action: ActionFunction = async ({ request, params }) => {
   console.log('newdogid', newDogId);
   await customFetch.post(`/dogs/${newDogId}/dogsConditions`, {
     selectedConditions,
-  }); */
-  const selectedConditionIdsString = formData.getAll('condition[]');
-  const formConditions = convertFormIdsToNumbers(selectedConditionIdsString);
+  }); */ /* 
+  const selectedConditionIdsString = formData.getAll('condition[]'); */
+
+  const formConditions = formData.getAll('condition[]');
+  /* const formConditions = convertFormIdsToNumbers(selectedConditionIdsString); */
 
   if (!validateDate(dogData.dateVisited)) {
     toast.error('Visit date cannot be in the future');
@@ -125,18 +134,24 @@ export const action: ActionFunction = async ({ request, params }) => {
     toast.error('Weight must be a number greater than zero');
     return false;
   }
-
+  if (!visitDateNotBeforeBirthDate(dogData.dateVisited, dogData.birthDate)) {
+    toast.error('Dog cannot visit before birth date');
+    return false;
+  }
   const dogId = params.id ? params.id : '';
 
   try {
     /*      await axios.patch(`http://localhost:3000/dogs/${params.id}`, dogData); */
-    await customFetch.post('/dogs', dogData);
+    await customFetch.patch(`/dogs/${dogId}`, dogData);
 
-    const filteredConditions = formConditions.filter(
+    /*  const filteredConditions = formConditions.filter(
       (c) => c !== undefined
-    ) as number[];
+    ) as string[]; */
+    const selectedConditions = formConditions.filter(
+      (c) => c !== undefined
+    ) as string[];
 
-    postConditions(dogId, filteredConditions);
+    postConditions(dogId, selectedConditions);
 
     toast.success('Dog edited successfully');
     return redirect('/dashboard/all-dogs');

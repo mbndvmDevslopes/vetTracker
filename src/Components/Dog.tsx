@@ -9,6 +9,7 @@ import { toast } from 'react-toastify';
 import { useAllDogsContext } from '../providers/useAllDogs';
 import { useCurrentUser } from '../providers/useCurrentUser';
 import customFetch from '../utils/customFetch';
+import dayjs from 'dayjs';
 day.extend(advancedFormat);
 
 export const Dog: React.FC<DogType> = ({
@@ -94,7 +95,11 @@ export const Dog: React.FC<DogType> = ({
       </header>
       <div className="content">
         <div className="content-center">
-          <DogInfo icon="Visited:" text={dateVisited} />
+          <DogInfo
+            icon="Visited:"
+            text={dayjs(dateVisited).format('MM-DD-YYYY')}
+          />
+
           <DogInfo icon="Owner:" text={ownerName} />
           <div className={isActive ? `status true` : 'status false'}>
             {isActive ? 'Active' : 'Not Active'}
