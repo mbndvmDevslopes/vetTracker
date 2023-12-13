@@ -4,9 +4,9 @@ export type DogType = {
   sex: string;
   name: string;
   breed: string;
-  birthDate: Date;
+  birthDate: string;
   weight: number;
-  dateVisited: Date;
+  dateVisited: string;
   notes: string;
   ownerName: string;
   isActive: boolean;
@@ -22,8 +22,8 @@ export type User = {
 
 export type DogsConditions = {
   id: string;
-  dogId: number;
-  conditionId: number;
+  dogId: string;
+  conditionId: string;
 };
 export type Conditions = {
   id: string;

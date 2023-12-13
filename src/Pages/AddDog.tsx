@@ -104,6 +104,7 @@ const AddDog = () => {
       ); */
       const dogResponse = await customFetch.post('/dogs', newDog);
       const newDogId = dogResponse.data.newDog.id;
+      console.log('newdogid', newDogId);
       await customFetch.post(`/dogs/${newDogId}/dogsConditions`, {
         selectedConditions,
       });

@@ -9,6 +9,7 @@ import {
 } from 'react-router-dom';
 import { Conditions, DogType, DogsConditions } from '../Types';
 import { useConditions } from '../providers/useConditions';
+import dayjs from 'dayjs';
 
 export const EditDog: React.FC = () => {
   const navigate = useNavigate();
@@ -70,7 +71,10 @@ export const EditDog: React.FC = () => {
             type="date"
             name="dateVisited"
             labelText="Date Visited"
-            defaultValue={dog.dateVisited.toString()}
+            defaultValue={
+              dayjs(dog.dateVisited).format('YYYY-MM-DD') ||
+              dayjs().format('YYYY-MM-DD')
+            }
             max={new Date().toLocaleDateString('en-ca')}
           />
           <FormRow
@@ -83,7 +87,10 @@ export const EditDog: React.FC = () => {
             type="date"
             name="birthDate"
             labelText="Birth Date"
-            defaultValue={dog.birthDate.toString()}
+            defaultValue={
+              dayjs(dog.birthDate).format('YYYY-MM-DD') ||
+              dayjs().format('YYYY-MM-DD')
+            }
             max={new Date().toLocaleDateString('en-ca')}
           />
           <div className="form-row">

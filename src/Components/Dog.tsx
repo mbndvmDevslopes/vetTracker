@@ -13,7 +13,6 @@ day.extend(advancedFormat);
 
 export const Dog: React.FC<DogType> = ({
   id,
-  vetId,
   name,
   breed,
   dateVisited,
@@ -22,7 +21,7 @@ export const Dog: React.FC<DogType> = ({
 }) => {
   const [isActive, setIsActive] = useState<boolean>(initialIsActive);
   const navigate = useNavigate();
-  const { reFetchAllDogs } = useAllDogsContext();
+  const { reFetchAllDogs, allDogs } = useAllDogsContext();
   const { isLoading, setIsLoading } = useCurrentUser();
 
   const toggleActive = async () => {
@@ -37,17 +36,19 @@ export const Dog: React.FC<DogType> = ({
     }
   };
   const deleteDog = async () => {
+    console.log('supposed to be dog id', id);
     setIsLoading(true);
     try {
       await deleteDogConditions(id);
       await customFetch.delete(`dogs/${id}`);
+      await reFetchAllDogs();
       toast.success('Dog successfully Deleted');
-      reFetchAllDogs();
-      navigate('/dashboard/all-dogs');
     } catch (error) {
       toast.error('Error deleting dog');
     } finally {
       setIsLoading(false);
+      navigate('/dashboard/all-dogs');
+      console.log(allDogs);
     }
   };
 

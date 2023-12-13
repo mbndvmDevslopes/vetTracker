@@ -2,16 +2,17 @@ import { toast } from 'react-toastify';
 import { DogType, DogsConditions } from '../Types';
 import { capitalizeAndTrim, validateDate } from '../utils/transformations';
 import { validateWeight } from '../utils/validation';
-import axios from 'axios';
 import { ActionFunction, redirect } from 'react-router-dom';
-import { retrieveCurrentUser } from '../utils/RetrieveCurrentUser';
+import customFetch from '../utils/customFetch';
 
-const postConditions = async (dogId: number, formConditions: number[]) => {
-  const apiUrl = 'http://localhost:3000';
-
+const postConditions = async (dogId: string, formConditions: number[]) => {
   try {
+    await customFetch.delete(`/dogs/${dogId}/dogsConditions`);
+    await customFetch.post(`/dogs/${dogId}/dogsConditions`, {
+      formConditions,
+    });
     // Fetch existing dogsConditions for the specific dog ID from the API endpoint
-    const existingResponse = await axios.get(
+    /* const existingResponse = await axios.get(
       `${apiUrl}/dogsConditions?dogId=${dogId}`
     );
     const existingDogsConditions = existingResponse.data;
@@ -51,19 +52,20 @@ const postConditions = async (dogId: number, formConditions: number[]) => {
         axios.post(`${apiUrl}/dogsConditions`, conditionData)
       )
     );
-
+ */
     console.log('Conditions updated successfully');
   } catch (error) {
     console.error('Error updating conditions:', error);
   }
 };
+/* 
+const getUserId = async () => {
+  const { data } = await customFetch.get('/user/current-user');
+  const loggedInUser = data.loggedInUserWithoutPassword;
 
-const getUserId = () => {
-  const user = retrieveCurrentUser();
-
-  const { id } = user;
-  return { id };
-};
+  const id = loggedInUser.id;
+  return id;
+}; */
 
 const convertFormIdsToNumbers = (strIds: FormDataEntryValue[]) =>
   strIds.map((condition: FormDataEntryValue) => {
@@ -71,29 +73,43 @@ const convertFormIdsToNumbers = (strIds: FormDataEntryValue[]) =>
       return parseInt(condition);
     }
   });
+const getFormDataDate = (value: FormDataEntryValue | null): string => {
+  if (value instanceof Date) {
+    return value.toISOString();
+  }
 
+  // Handle other cases if needed
+  return new Date().toISOString();
+};
 export const action: ActionFunction = async ({ request, params }) => {
   const formData = await request.formData();
 
-  const { id } = getUserId();
-  const dateVisitedValue = formData.get('dateVisited');
+  /*const id = getUserId();  */
 
-  const dogData: Omit<DogType, 'id'> = {
+  const dogData: Omit<DogType, 'id' | 'vetId'> = {
     sex: capitalizeAndTrim(formData.get('sex')?.toString()),
     name: capitalizeAndTrim(formData.get('name')?.toString()),
     breed: capitalizeAndTrim(formData.get('breed')?.toString()),
-    birthDate: new Date(formData.get('birthDate') as string) || new Date(),
+    /* birthDate: new Date(formData.get('birthDate') as string) || new Date(), */
+
+    birthDate: getFormDataDate(formData.get('birthDate')),
+    dateVisited: getFormDataDate(formData.get('dateVisited')),
 
     weight: parseFloat(formData.get('weight') as string) || 0,
-    dateVisited: new Date(dateVisitedValue as string) || new Date(),
 
     notes: formData.get('notes')?.toString() || ''.trim(),
 
-    vetId: id,
     ownerName: capitalizeAndTrim(formData.get('ownerName')?.toString()),
     isActive: formData.get('isActive') === 'true',
   };
+  /* 
 
+  const dogResponse = await customFetch.post('/dogs', newDog);
+  const newDogId = dogResponse.data.newDog.id;
+  console.log('newdogid', newDogId);
+  await customFetch.post(`/dogs/${newDogId}/dogsConditions`, {
+    selectedConditions,
+  }); */
   const selectedConditionIdsString = formData.getAll('condition[]');
   const formConditions = convertFormIdsToNumbers(selectedConditionIdsString);
 
@@ -110,10 +126,11 @@ export const action: ActionFunction = async ({ request, params }) => {
     return false;
   }
 
-  const dogId = params.id ? parseInt(params.id) : 0;
+  const dogId = params.id ? params.id : '';
 
   try {
-    await axios.patch(`http://localhost:3000/dogs/${params.id}`, dogData);
+    /*      await axios.patch(`http://localhost:3000/dogs/${params.id}`, dogData); */
+    await customFetch.post('/dogs', dogData);
 
     const filteredConditions = formConditions.filter(
       (c) => c !== undefined

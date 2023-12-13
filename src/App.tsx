@@ -23,6 +23,7 @@ import { useState } from 'react';
 import { Conditions } from './Types';
 import { DogsContainer } from './Components/DogsContainer';
 import { checkDefaultTheme } from './utils/CheckDefaultTheme';
+import { CurrentUserProvider } from './providers/CurrentUserProvider';
 
 checkDefaultTheme();
 
@@ -30,59 +31,64 @@ function App() {
   const [searchResults, setSearchResults] = useState<Conditions[]>([]);
   const router = createBrowserRouter([
     {
-      path: '/',
-
-      element: <Home />,
-      errorElement: <Error />,
+      element: <CurrentUserProvider children={undefined} />,
       children: [
         {
-          index: true,
-          element: <Landing />,
-        },
-        {
-          path: 'register',
-          element: <Register />,
-          action: registerAction,
-        },
-        {
-          path: 'login',
-          element: <Login />,
-        },
-        {
-          path: 'dashboard',
-          element: <DashboardLayout />,
+          path: '/',
 
+          element: <Home />,
+          errorElement: <Error />,
           children: [
             {
               index: true,
-              element: <AddDog />,
+              element: <Landing />,
             },
             {
-              path: 'all-dogs',
-              element: <AllDogs children={<DogsContainer />} />,
+              path: 'register',
+              element: <Register />,
+              action: registerAction,
             },
+            {
+              path: 'login',
+              element: <Login />,
+            },
+            {
+              path: 'dashboard',
+              element: <DashboardLayout />,
 
-            {
-              path: 'profile',
-              element: <Profile />,
+              children: [
+                {
+                  index: true,
+                  element: <AddDog />,
+                },
+                {
+                  path: 'all-dogs',
+                  element: <AllDogs children={<DogsContainer />} />,
+                },
+
+                {
+                  path: 'profile',
+                  element: <Profile />,
+                },
+                { path: 'admin', element: <Admin /> },
+                {
+                  path: 'all-conditions',
+                  element: (
+                    <AllConditions
+                      searchResults={searchResults}
+                      setSearchResults={setSearchResults}
+                    />
+                  ),
+                },
+                {
+                  path: 'edit-dog/:id',
+                  element: <EditDog />,
+                  action: editDogAction,
+                  loader: editDogLoader,
+                },
+                { path: 'add-condition', element: <AddCondition /> },
+              ],
             },
-            { path: 'admin', element: <Admin /> },
-            {
-              path: 'all-conditions',
-              element: (
-                <AllConditions
-                  searchResults={searchResults}
-                  setSearchResults={setSearchResults}
-                />
-              ),
-            },
-            {
-              path: 'edit-dog/:id',
-              element: <EditDog />,
-              action: editDogAction,
-              loader: editDogLoader,
-            },
-            { path: 'add-condition', element: <AddCondition /> },
           ],
         },
       ],

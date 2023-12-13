@@ -3,7 +3,7 @@ import { getUser, getUserData } from '../api'; // Import the API function
 import { User } from '../Types';
 import { toast } from 'react-toastify';
 import customFetch from '../utils/customFetch';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 /* import axios from "axios";
  */
@@ -138,8 +138,7 @@ export const CurrentUserProvider: React.FC<{ children: ReactNode }> = ({
         getCurrentUser,
       }}
     >
-      {/* {children} */}
-      <Outlet />
+      {children}
     </CurrentUserContext.Provider>
   );
 };

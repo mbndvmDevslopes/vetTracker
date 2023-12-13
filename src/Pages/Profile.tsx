@@ -2,7 +2,6 @@ import { FormRowControlledInput } from '../Components/FormRowControlledInput';
 import Wrapper from '../assets/Wrappers/DashboardFormPage';
 import { useNavigation } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import axios from 'axios';
 import { useCurrentUser } from '../providers/useCurrentUser';
 import { FormEvent, useState } from 'react';
 import { capitalize } from '../utils/transformations';
@@ -15,7 +14,7 @@ type AmendedUser = {
 };
 export const Profile: React.FC = () => {
   /* const { userData } = useOutletContext(); */
-  const { user, setUser, refetchUser } = useCurrentUser();
+  const { user, refetchUser } = useCurrentUser();
 
   const navigation = useNavigation();
   const isSubmitting = navigation.state === 'submitting';
@@ -25,16 +24,6 @@ export const Profile: React.FC = () => {
     lastName: user!.lastName,
     email: user!.email,
   });
-
-  const updateUserInLocalStorage = (updatedUserData: AmendedUser) => {
-    const currentUser = user;
-    if (currentUser) {
-      const updatedUser = { ...currentUser, ...updatedUserData };
-      localStorage.setItem('user', JSON.stringify(updatedUser));
-      return updatedUser;
-    }
-    return null;
-  };
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -54,14 +43,8 @@ export const Profile: React.FC = () => {
     e.preventDefault();
     /* const id = user?.id; */
     try {
-      /*   const response = await axios.patch(
-        `http://localhost:3000/users/${id}`,
-        amendedUser
-      ); */
       await customFetch.patch('/user/update-user', amendedUser);
-      /*  const editedUser = response.data;
-      updateUserInLocalStorage(editedUser);
-      setUser(editedUser); */
+
       refetchUser();
       return toast.success('Profile updated successfully');
     } catch (error) {
