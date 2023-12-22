@@ -7,7 +7,6 @@ import { useCurrentUser } from '../providers/useCurrentUser';
 
 import { DogType } from '../Types';
 import customFetch from '../utils/customFetch';
-import dayjs from 'dayjs';
 
 type TAllDogsProviderTypes = {
   setAllDogs: React.Dispatch<React.SetStateAction<DogType[]>>;
@@ -29,18 +28,11 @@ export const AllDogs: React.FC<{ children: ReactNode }> = () => {
   const [allDogs, setAllDogs] = useState<DogType[]>([]);
   const [searchResults, setSearchResults] = useState<DogType[]>([]);
 
-  /* const formatDates = (date: string) => {
-    return date.format('MM-DD-YYYY');
-  }; */
   const reFetchAllDogs = async () => {
     try {
       const fetchOneVetsDogs = await customFetch.get('/dogs');
-      console.log('fetchonvets dogs data', fetchOneVetsDogs.data);
-      const dogs = fetchOneVetsDogs.data;
-      console.log('day visited', dogs[0].dateVisited);
       setAllDogs(fetchOneVetsDogs.data);
       setSearchResults(fetchOneVetsDogs.data);
-      console.log('type of date', typeof fetchOneVetsDogs.data.dateVisited);
       return fetchOneVetsDogs;
     } catch (error) {
       if (error instanceof AxiosError && error.response) {
@@ -56,11 +48,6 @@ export const AllDogs: React.FC<{ children: ReactNode }> = () => {
         setAllDogs(fetchOneVetsDogs.data);
         setSearchResults(fetchOneVetsDogs.data);
         setIsLoading(false);
-        console.log('day visited', fetchOneVetsDogs.data[0].dateVisited);
-        console.log(
-          'type of date',
-          typeof fetchOneVetsDogs.data[0].dateVisited
-        );
       } catch (error) {
         toast.error("Error fetching user's dogs");
         return null;
@@ -95,7 +82,5 @@ export const AllDogs: React.FC<{ children: ReactNode }> = () => {
 };
 
 export default AllDogs;
-function setIsLoading(arg0: boolean) {
-  throw new Error('Function not implemented.');
-}
+
 

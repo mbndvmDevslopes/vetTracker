@@ -1,17 +1,19 @@
 import React, { createContext, useState, useEffect, ReactNode } from 'react';
-import { getUser, getUserData } from '../api'; // Import the API function
 import { User } from '../Types';
 import { toast } from 'react-toastify';
 import customFetch from '../utils/customFetch';
 import { Outlet, useNavigate } from 'react-router-dom';
+import axios, { AxiosError } from 'axios';
 
 /* import axios from "axios";
+
+
  */
 type TCurrentUserProviderTypes = {
   user: User | null;
   setUser: React.Dispatch<React.SetStateAction<User | null>>;
   refetchUser: () => void;
-  login: (userLoggingIn: { email: string; password: string }) => Promise<User>;
+  /* login: (userLoggingIn: { email: string; password: string }) => Promise<User>; */
   isLoading: boolean;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
   getCurrentUser: () => Promise<User>;
@@ -19,14 +21,30 @@ type TCurrentUserProviderTypes = {
 export const CurrentUserContext = createContext<TCurrentUserProviderTypes>(
   {} as TCurrentUserProviderTypes
 );
+/* const api = axios.create();
 
-export const CurrentUserProvider: React.FC<{ children: ReactNode }> = ({
-  children,
-}) => {
+api.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    const navigate = useNavigate();
+
+    if (error.response?.status === 401) {
+      // Unauthorized (token expired or invalid)
+      // Redirect to the login page
+      await customFetch.get('/auth/logout');
+      toast.success('Logout Successful');
+      navigate('/');
+    }
+
+    return Promise.reject(error);
+  }
+); */
+export const CurrentUserProvider: React.FC<{ children: ReactNode }> = () => {
   /*  const [user, setUser] = useState<User | null>(() => {
     const savedUser = localStorage.getItem('user');
     return savedUser ? JSON.parse(savedUser) : null;
   }); */
+
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
@@ -40,13 +58,12 @@ export const CurrentUserProvider: React.FC<{ children: ReactNode }> = ({
 
       return loggedInUser;
     } catch (error) {
-      await customFetch.get('/auth/logout');
-      toast.success('Logout Successful');
+      /*  await customFetch.get('/auth/logout');
+      toast.success('Logout Successful'); */
       navigate('/');
     }
   };
-  const login = async () => {
-    /*  refetchUser(); */
+  /* const login = async () => {
     try {
       const { data } = await customFetch.get('/user/current-user');
       const loggedInUser = data.loggedInUserWithoutPassword;
@@ -55,39 +72,12 @@ export const CurrentUserProvider: React.FC<{ children: ReactNode }> = ({
 
       return loggedInUser;
     } catch (error) {
-      await customFetch.get('/auth/logout');
-      toast.success('Logout Successful');
-    }
-
-    /* setIsLoading(true);
-    try {
-      console.log('hi');
-      setIsLoading(false);
-    } catch (error) {
-      console.log('error');
-    } */
-    /*    const users = await getUser(userLoggingIn.email);
-      const user = users.find(
-        (user: User) => user.password === userLoggingIn.password
-      );
-
-      if (user) {
-        setUser(user);
-
-        localStorage.setItem('user', JSON.stringify(user));
-        toast.success(`Thanks, Dr. ${user.lastName}, you are now logged in`);
-        return user;
-      } else {
-        toast.warning('Invalid credentials');
-        throw new Error('Invalid credentials');
+      if (error instanceof AxiosError && error.response) {
+        toast.error(error?.response?.data?.msg);
       }
-    } catch (error) {
-      console.error('An error occurred:', error);
-      throw error;
-    } finally {
-      setIsLoading(false);
-    } */
-  };
+      navigate('/');
+    }
+  }; */
 
   const refetchUser = async () => {
     try {
@@ -95,19 +85,23 @@ export const CurrentUserProvider: React.FC<{ children: ReactNode }> = ({
       const loggedInUser = data.loggedInUserWithoutPassword;
 
       setUser(loggedInUser);
+      if (!loggedInUser) {
+        setUser(null);
+        navigate('/');
+      }
 
       return loggedInUser;
       /* const currentUser = data.data;
       setUser(currentUser);
       console.log(user); */
     } catch (error) {
-      await customFetch.get('/auth/logout');
-      toast.success('Logout Successful');
+      /* await customFetch.get('/auth/logout');
+      toast.success('Logout Successful'); */
+      navigate('/');
     }
   };
-  /*   useEffect(() => {
+  /*  useEffect(() => {
     const fetchUserData = async () => {
-
       refetchUser();
     };
 
@@ -120,6 +114,7 @@ export const CurrentUserProvider: React.FC<{ children: ReactNode }> = ({
         setIsLoading(false); // Set isLoading to false after successful user retrieval
       } catch (error) {
         setIsLoading(false); // Set isLoading to false in case of an error
+        navigate('/');
       }
     };
 
@@ -132,14 +127,14 @@ export const CurrentUserProvider: React.FC<{ children: ReactNode }> = ({
         user,
         setUser,
         refetchUser,
-        login,
+        /* login, */
         setIsLoading,
         isLoading,
         getCurrentUser,
       }}
     >
       {/* {children} */}
-      <Outlet />
+      <Outlet context={{ user }} />
     </CurrentUserContext.Provider>
   );
 };

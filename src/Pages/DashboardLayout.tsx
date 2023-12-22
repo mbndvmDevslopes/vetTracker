@@ -27,12 +27,20 @@ export const DashboardContext = createContext<TDashboardProvider>(
 const DashboardLayout = () => {
   const navigate = useNavigate();
   const { user, setUser, getCurrentUser } = useCurrentUser();
-  const { conditions } = useConditions();
+  const { setConditions, conditions } = useConditions();
 
   const [showSidebar, setShowSidebar] = useState<boolean>(false);
   const [isDarkTheme, setIsDarkTheme] = useState<boolean>(checkDefaultTheme());
   useEffect(() => {
-    getCurrentUser();
+    const fetchUser = async () => {
+      const currentUser = await getCurrentUser();
+      console.log('current user', currentUser);
+      if (!currentUser) {
+        setUser(null);
+        redirect('/');
+      }
+    };
+    fetchUser();
   }, []);
   const toggleDarkTheme = () => {
     const newDarkTheme = !isDarkTheme;
@@ -51,6 +59,7 @@ const DashboardLayout = () => {
       await customFetch.get('/auth/logout');
       toast.success('Logout Successful');
       setUser(null);
+      setConditions(null);
 
       navigate('/');
     } catch (error) {
@@ -77,7 +86,7 @@ const DashboardLayout = () => {
           <div>
             <Navbar />
             <div className="dashboard-page">
-              <Outlet context={{ user, conditions }} />
+              <Outlet />
             </div>
           </div>
         </main>

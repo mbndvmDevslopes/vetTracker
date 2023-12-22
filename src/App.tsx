@@ -24,6 +24,7 @@ import { Conditions } from './Types';
 import { DogsContainer } from './Components/DogsContainer';
 import { checkDefaultTheme } from './utils/CheckDefaultTheme';
 import { CurrentUserProvider } from './providers/CurrentUserProvider';
+import AuthRequired from './Components/AuthRequired';
 
 checkDefaultTheme();
 
@@ -53,40 +54,46 @@ function App() {
               element: <Login />,
             },
             {
-              path: 'dashboard',
-              element: <DashboardLayout />,
+              element: <AuthRequired />,
 
               children: [
                 {
-                  index: true,
-                  element: <AddDog />,
-                },
-                {
-                  path: 'all-dogs',
-                  element: <AllDogs children={<DogsContainer />} />,
-                },
+                  path: 'dashboard',
+                  element: <DashboardLayout />,
 
-                {
-                  path: 'profile',
-                  element: <Profile />,
+                  children: [
+                    {
+                      index: true,
+                      element: <AddDog />,
+                    },
+                    {
+                      path: 'all-dogs',
+                      element: <AllDogs children={<DogsContainer />} />,
+                    },
+
+                    {
+                      path: 'profile',
+                      element: <Profile />,
+                    },
+                    { path: 'admin', element: <Admin /> },
+                    {
+                      path: 'all-conditions',
+                      element: (
+                        <AllConditions
+                          searchResults={searchResults}
+                          setSearchResults={setSearchResults}
+                        />
+                      ),
+                    },
+                    {
+                      path: 'edit-dog/:id',
+                      element: <EditDog />,
+                      action: editDogAction,
+                      loader: editDogLoader,
+                    },
+                    { path: 'add-condition', element: <AddCondition /> },
+                  ],
                 },
-                { path: 'admin', element: <Admin /> },
-                {
-                  path: 'all-conditions',
-                  element: (
-                    <AllConditions
-                      searchResults={searchResults}
-                      setSearchResults={setSearchResults}
-                    />
-                  ),
-                },
-                {
-                  path: 'edit-dog/:id',
-                  element: <EditDog />,
-                  action: editDogAction,
-                  loader: editDogLoader,
-                },
-                { path: 'add-condition', element: <AddCondition /> },
               ],
             },
           ],

@@ -1,60 +1,23 @@
-import { useState, FormEvent } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, FormEvent, useEffect } from 'react';
+import { redirect, useNavigate } from 'react-router-dom';
 import Wrapper from '../assets/Wrappers/DashboardFormPage';
 import { toast } from 'react-toastify';
-import axios from 'axios';
 import { validateWeight } from '../utils/validation';
 import { SubmitBtn } from '../Components/SubmitBtn';
 
 import { useConditions } from '../providers/useConditions';
-import { useCurrentUser } from '../providers/useCurrentUser';
 import { FormRowControlledInput } from '../Components/FormRowControlledInput';
 import { capitalize } from '../utils/transformations';
 import customFetch from '../utils/customFetch';
-/*
-import React, { useState } from 'react';
-import axios from 'axios';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import { refetchUser } from '../utils/checkAuth';
 
-const CreateDogsConditions = ({ dogId }) => {
-  const [conditionIds, setConditionIds] = useState([]);
+dayjs.extend(utc);
 
-  const handleCreateDogsConditions = async () => {
-    try {
-      const response = await axios.post(`/dogs/${dogId}/conditions`, {
-        conditionIds,
-      });
-
-      if (response.status === 201) {
-        console.log('DogsConditions created successfully');
-      } else {
-        console.error('Failed to create DogsConditions');
-      }
-    } catch (error) {
-      console.error('Error creating DogsConditions:', error);
-    }
-  };
-
-  return (
-    <div>
-      <h2>Create DogsConditions</h2>
-      <label>
-        Condition IDs (comma-separated):
-        <input
-          type="text"
-          value={conditionIds.join(',')}
-          onChange={(e) => setConditionIds(e.target.value.split(','))}
-        />
-      </label>
-      <button onClick={handleCreateDogsConditions}>Create DogsConditions</button>
-    </div>
-  );
-};
-
-export default CreateDogsConditions;
-
-*/
 const AddDog = () => {
-  const { user } = useCurrentUser();
+  /* 
+  const { user } = useCurrentUser(); */
   const { conditions } = useConditions();
 
   const [newDog, setNewDog] = useState({
@@ -65,7 +28,7 @@ const AddDog = () => {
     weight: 0,
     dateVisited: '',
     notes: '',
-    vetId: user?.id,
+
     isActive: true,
     ownerName: '',
   });
@@ -95,26 +58,16 @@ const AddDog = () => {
       toast.error('Weight must be a number greater than zero');
       return false;
     }
-    console.log(selectedConditions);
     try {
-      // Add the dog to the database
-      /*  const dogResponse = await axios.post(
-        'http://localhost:3000/dogs',
-        newDog
-      ); */
-      const dogResponse = await customFetch.post('/dogs', newDog);
+      const dogResponse = await customFetch.post('/dogs', {
+        ...newDog,
+        birthDate: dayjs(newDog.birthDate).utc().format(),
+        dateVisited: dayjs(newDog.dateVisited).utc().format(),
+      });
       const newDogId = dogResponse.data.newDog.id;
-      console.log('newdogid', newDogId);
       await customFetch.post(`/dogs/${newDogId}/dogsConditions`, {
         selectedConditions,
       });
-      /*  const conditionPromises = selectedConditions.map(async (conditionId) => {
-        await axios.post('http://localhost:3000/dogsConditions', {
-          dogId: newDogId,
-          conditionId: parseInt(conditionId),
-        });
-      });
-      await Promise.all(conditionPromises); */
 
       toast.success('Dog added successfully');
       navigate('/dashboard/all-dogs');

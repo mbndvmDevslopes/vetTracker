@@ -1,53 +1,43 @@
 import { Link, redirect } from 'react-router-dom';
 import Wrapper from '../assets/Wrappers/Condition';
-import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useConditions } from '../providers/useConditions';
+import customFetch from '../utils/customFetch';
+import { AxiosError } from 'axios';
 
 export const Condition = ({
   id,
   conditionName,
 }: {
-  id: number;
+  id: string;
   conditionName: string;
 }) => {
   const { refetchConditions } = useConditions();
 
-  const getConditionsInUse = async (id: number) => {
+  const deleteCondition = async () => {
     try {
-      const response = await axios.get(
-        ` http://localhost:3000/dogsConditions?conditionId=${id}`
-      );
+      await customFetch.delete(`/conditions/${id}`);
 
-      if (response.status === 200) {
-        const conditionsInUse = response.data;
-        return conditionsInUse;
-      }
+      refetchConditions();
+      return redirect('/dashboard/all-conditions');
     } catch (error) {
-      console.error('Error:', error);
-      toast.error('There was an error fetching the conditions');
-    }
-  };
-  const deleteCondition = async (id: number) => {
-    const conditionsInUse = await getConditionsInUse(id);
-    if (conditionsInUse.length > 0) {
-      toast.error('This condition is in use and may not be deleted');
-    } else {
-      try {
-        await axios.delete(`http://localhost:3000/conditions/${id}`);
-        toast.success('The condition was deleted');
-        refetchConditions();
-        return redirect('/dashboard/all-conditions');
-      } catch (error) {
-        toast.error('There was an error deleting the condition');
-        return;
+      if (error instanceof AxiosError && error.response) {
+        toast.error(error?.response?.data?.msg);
       }
+      return;
     }
   };
 
   const handleDeleteCondition = async () => {
     try {
-      await deleteCondition(id);
+      const response = await customFetch.get(`/checkUsage/${id}`);
+      if (response.data.conditionInUse) {
+        toast.error('Condition is in use and cannot be deleted.');
+      } else {
+        await deleteCondition();
+
+        toast.success('Condition deleted successfully.');
+      }
     } catch (error) {
       console.error(error);
     }

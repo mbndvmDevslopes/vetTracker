@@ -22,7 +22,7 @@ export const Dog: React.FC<DogType> = ({
 }) => {
   const [isActive, setIsActive] = useState<boolean>(initialIsActive);
   const navigate = useNavigate();
-  const { reFetchAllDogs, allDogs } = useAllDogsContext();
+  const { reFetchAllDogs } = useAllDogsContext();
   const { isLoading, setIsLoading } = useCurrentUser();
 
   const toggleActive = async () => {
@@ -37,7 +37,6 @@ export const Dog: React.FC<DogType> = ({
     }
   };
   const deleteDog = async () => {
-    console.log('supposed to be dog id', id);
     setIsLoading(true);
     try {
       await deleteDogConditions(id);
@@ -49,34 +48,10 @@ export const Dog: React.FC<DogType> = ({
     } finally {
       setIsLoading(false);
       navigate('/dashboard/all-dogs');
-      console.log(allDogs);
     }
   };
 
   const deleteDogConditions = async (id: string) => {
-    /* try {
-      // Fetch all dogsConditions records with the given dogId
-      const response = await axios.get(
-        `http://localhost:3000/dogsConditions?dogId=${id}`
-      );
-
-      // Iterate over the response data and delete each record
-      const conditionsToDelete = response.data;
-      const deletePromises = conditionsToDelete.map(
-        async (condition: Conditions) => {
-          await axios.delete(
-            `http://localhost:3000/dogsConditions/${condition.id}`
-          );
-        }
-      );
-
-      // Wait for all delete operations to complete
-      await Promise.all(deletePromises);
-    } catch (error) {
-      console.error(error);number
-    } finally {
-      setIsLoading(false);
-    } */
     try {
       await customFetch.delete(`dogs/${id}/dogsConditions`);
     } catch (error) {

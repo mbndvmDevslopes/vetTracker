@@ -10,6 +10,9 @@ import {
 import { Conditions, DogType, DogsConditions } from '../Types';
 import { useConditions } from '../providers/useConditions';
 import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+
+dayjs.extend(utc);
 
 export const EditDog: React.FC = () => {
   const navigate = useNavigate();

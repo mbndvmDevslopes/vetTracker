@@ -6,6 +6,7 @@ import { useCurrentUser } from '../providers/useCurrentUser';
 import { FormEvent, useState } from 'react';
 import { capitalize } from '../utils/transformations';
 import customFetch from '../utils/customFetch';
+import { AxiosError } from 'axios';
 
 type AmendedUser = {
   firstName: string;
@@ -20,11 +21,11 @@ export const Profile: React.FC = () => {
   const isSubmitting = navigation.state === 'submitting';
 
   const [amendedUser, setAmendedUser] = useState<AmendedUser>({
-    firstName: user!.firstName,
-    lastName: user!.lastName,
-    email: user!.email,
+    firstName: user?.firstName || '',
+    lastName: user?.lastName || '',
+    email: user?.email || '',
   });
-
+  console.log('user from profile', user);
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
@@ -48,7 +49,10 @@ export const Profile: React.FC = () => {
       refetchUser();
       return toast.success('Profile updated successfully');
     } catch (error) {
-      toast.error('There was an error updating the profile');
+      /*  toast.error('There was an error updating the profile'); */
+      if (error instanceof AxiosError && error.response) {
+        toast.error(error?.response?.data?.msg);
+      }
     }
   };
 

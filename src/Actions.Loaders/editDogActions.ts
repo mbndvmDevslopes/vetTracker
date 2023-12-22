@@ -1,5 +1,5 @@
 import { toast } from 'react-toastify';
-import { DogType, DogsConditions } from '../Types';
+import { DogType } from '../Types';
 import {
   capitalizeAndTrim,
   validateDate,
@@ -8,98 +8,31 @@ import {
 import { validateWeight } from '../utils/validation';
 import { ActionFunction, redirect } from 'react-router-dom';
 import customFetch from '../utils/customFetch';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
 
-const postConditions = async (dogId: string, formConditions: string[]) => {
+dayjs.extend(utc);
+
+const postConditions = async (dogId: string, selectedConditions: string[]) => {
   try {
     await customFetch.delete(`/dogs/${dogId}/dogsConditions`);
     await customFetch.post(`/dogs/${dogId}/dogsConditions`, {
-      formConditions,
+      selectedConditions,
     });
-    // Fetch existing dogsConditions for the specific dog ID from the API endpoint
-    /* const existingResponse = await axios.get(
-      `${apiUrl}/dogsConditions?dogId=${dogId}`
-    );
-    const existingDogsConditions = existingResponse.data;
-
-    // Remove conditions that are NOT selected in the form from the database
-    const conditionsToRemove = existingDogsConditions
-      .filter(
-        (entry: DogsConditions) => !formConditions.includes(entry.conditionId)
-      )
-      .map((entry: DogsConditions) => entry.id);
-
-    // Add conditions that are selected in the form to the database
-    const conditionsToAdd = formConditions
-      .filter(
-        (conditionId) =>
-          !existingDogsConditions.some(
-            (entry: DogsConditions) => entry.conditionId === conditionId
-          )
-      )
-      .map((conditionId) => {
-        return {
-          dogId: dogId,
-          conditionId: conditionId,
-        };
-      });
-
-    // Remove conditions from the database
-    await Promise.all(
-      conditionsToRemove.map((entryId: number) =>
-        axios.delete(`${apiUrl}/dogsConditions/${entryId}`)
-      )
-    );
-
-    // Add new conditions to the database
-    await Promise.all(
-      conditionsToAdd.map((conditionData) =>
-        axios.post(`${apiUrl}/dogsConditions`, conditionData)
-      )
-    );
- */
     console.log('Conditions updated successfully');
   } catch (error) {
     console.error('Error updating conditions:', error);
   }
 };
-/* 
-const getUserId = async () => {
-  const { data } = await customFetch.get('/user/current-user');
-  const loggedInUser = data.loggedInUserWithoutPassword;
-
-  const id = loggedInUser.id;
-  return id;
-}; */
-
-/* const convertFormIdsToNumbers = (strIds: FormDataEntryValue[]) =>
-  strIds.map((condition: FormDataEntryValue) => {
-    if (typeof condition === 'string') {
-      return parseInt(condition);
-    }
-  }); */
-const getFormDataDate = (value: FormDataEntryValue | null): string => {
-  console.log('birthday', typeof value, value);
-  if (value instanceof Date) {
-    return value.toISOString();
-  }
-
-  // Handle other cases if needed
-  return new Date().toISOString();
-};
 export const action: ActionFunction = async ({ request, params }) => {
   const formData = await request.formData();
-
-  /*const id = getUserId();  */
 
   const dogData: Omit<DogType, 'id' | 'vetId'> = {
     sex: capitalizeAndTrim(formData.get('sex')?.toString()),
     name: capitalizeAndTrim(formData.get('name')?.toString()),
     breed: capitalizeAndTrim(formData.get('breed')?.toString()),
-    /*  birthDate: new Date(formData.get('birthDate') as string) || new Date(), */
     birthDate: formData.get('birthDate') as string,
 
-    /* birthDate: getFormDataDate(formData.get('birthDate')), */
-    /* birthDate: formData.get('birthDate'?toString()), */
     dateVisited: formData.get('dateVisited') as string,
 
     weight: parseFloat(formData.get('weight') as string) || 0,
@@ -109,18 +42,8 @@ export const action: ActionFunction = async ({ request, params }) => {
     ownerName: capitalizeAndTrim(formData.get('ownerName')?.toString()),
     isActive: formData.get('isActive') === 'true',
   };
-  /* 
-
-  const dogResponse = await customFetch.post('/dogs', newDog);
-  const newDogId = dogResponse.data.newDog.id;
-  console.log('newdogid', newDogId);
-  await customFetch.post(`/dogs/${newDogId}/dogsConditions`, {
-    selectedConditions,
-  }); */ /* 
-  const selectedConditionIdsString = formData.getAll('condition[]'); */
 
   const formConditions = formData.getAll('condition[]');
-  /* const formConditions = convertFormIdsToNumbers(selectedConditionIdsString); */
 
   if (!validateDate(dogData.dateVisited)) {
     toast.error('Visit date cannot be in the future');
@@ -141,17 +64,16 @@ export const action: ActionFunction = async ({ request, params }) => {
   const dogId = params.id ? params.id : '';
 
   try {
-    /*      await axios.patch(`http://localhost:3000/dogs/${params.id}`, dogData); */
-    await customFetch.patch(`/dogs/${dogId}`, dogData);
+    await customFetch.patch(`/dogs/${dogId}`, {
+      ...dogData,
+      birthDate: dayjs(dogData.birthDate).utc().format(),
+      dateVisited: dayjs(dogData.dateVisited).utc().format(),
+    });
 
-    /*  const filteredConditions = formConditions.filter(
-      (c) => c !== undefined
-    ) as string[]; */
     const selectedConditions = formConditions.filter(
       (c) => c !== undefined
     ) as string[];
-
-    postConditions(dogId, selectedConditions);
+    await postConditions(dogId, selectedConditions);
 
     toast.success('Dog edited successfully');
     return redirect('/dashboard/all-dogs');

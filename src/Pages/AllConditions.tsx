@@ -21,7 +21,7 @@ export const AllConditions: React.FC<AllConditionsProps> = ({
     if (conditions !== null) {
       setSearchResults(conditions);
     }
-  }, [conditions]);
+  }, []);
 
   return (
     <>
