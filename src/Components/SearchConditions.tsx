@@ -1,15 +1,19 @@
+import { useEffect } from 'react';
 import { Form } from 'react-router-dom';
 import { FormRow } from './FormRow';
 import Wrapper from '../assets/Wrappers/DashboardFormPage';
 
 import { Conditions } from '../Types';
 import { useConditions } from '../providers/useConditions';
+import { useDashboardContext } from '../providers/useDashboardContext';
 
 const Search: React.FC<{
   setSearchResults: React.Dispatch<React.SetStateAction<Conditions[]>>;
 }> = ({ setSearchResults }) => {
-  const { conditions } = useConditions();
-
+  const { conditions } = useDashboardContext();
+  useEffect(() => {
+    setSearchResults(conditions as Conditions[]);
+  }, []);
   const handleSearch = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
@@ -20,6 +24,7 @@ const Search: React.FC<{
     const filteredConditions = conditions?.filter((condition: Conditions) =>
       condition.conditionName.toLowerCase().includes(searchTerm)
     );
+    /* setSearchResults(filteredConditions as Conditions[]); */
     setSearchResults(filteredConditions as Conditions[]);
   };
 

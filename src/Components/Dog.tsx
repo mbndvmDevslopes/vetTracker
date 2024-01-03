@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useOutletContext } from 'react-router-dom';
 import Wrapper from '../assets/Wrappers/Dog';
 import { DogInfo } from './DogInfo';
 import { DogType } from '../Types';
@@ -24,6 +24,7 @@ export const Dog: React.FC<DogType> = ({
   const navigate = useNavigate();
   const { reFetchAllDogs } = useAllDogsContext();
   const { isLoading, setIsLoading } = useCurrentUser();
+  /*   const {isLoading, setIsLoading} = useOutletContext(); */
 
   const toggleActive = async () => {
     try {

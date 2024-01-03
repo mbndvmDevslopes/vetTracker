@@ -1,6 +1,6 @@
 import { FormRowControlledInput } from '../Components/FormRowControlledInput';
 import Wrapper from '../assets/Wrappers/DashboardFormPage';
-import { useNavigation } from 'react-router-dom';
+import { useNavigation, useOutletContext } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useCurrentUser } from '../providers/useCurrentUser';
 import { FormEvent, useState } from 'react';
@@ -16,6 +16,7 @@ type AmendedUser = {
 export const Profile: React.FC = () => {
   /* const { userData } = useOutletContext(); */
   const { user, refetchUser } = useCurrentUser();
+  /* const { user, setIsLoading } = useOutletContext(); */
 
   const navigation = useNavigation();
   const isSubmitting = navigation.state === 'submitting';
@@ -25,7 +26,6 @@ export const Profile: React.FC = () => {
     lastName: user?.lastName || '',
     email: user?.email || '',
   });
-  console.log('user from profile', user);
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement

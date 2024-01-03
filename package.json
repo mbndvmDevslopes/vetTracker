@@ -12,8 +12,10 @@
     "seed": "node reseed-db.js"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.15.0",
     "axios": "^1.5.0",
     "dayjs": "^1.11.10",
+    "devtools": "^8.27.0",
     "i": "^0.3.7",
     "lodash": "^4.17.21",
     "lodash-es": "^4.17.21",

@@ -11,6 +11,7 @@ import { Conditions, DogType, DogsConditions } from '../Types';
 import { useConditions } from '../providers/useConditions';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
+import { useDashboardContext } from '../providers/useDashboardContext';
 
 dayjs.extend(utc);
 
@@ -18,7 +19,7 @@ export const EditDog: React.FC = () => {
   const navigate = useNavigate();
   const navigation = useNavigation();
   const isSubmitting = navigation.state === 'submitting';
-  const { conditions } = useConditions();
+  const { conditions } = useDashboardContext();
 
   const data = useLoaderData() as {
     dog: DogType;
@@ -27,7 +28,7 @@ export const EditDog: React.FC = () => {
 
   const { dog, existingConditions } = data;
 
-  const { conditions: allConditions } = useConditions();
+  const { conditions: allConditions } = useDashboardContext();
   const [dogConditions, setDogConditions] = useState<Conditions[]>([]);
 
   useEffect(() => {

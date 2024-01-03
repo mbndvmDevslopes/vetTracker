@@ -3,7 +3,10 @@ import { useConditions } from '../providers/useConditions';
 import SearchConditions from '../Components/SearchConditions';
 import { Conditions } from '../Types';
 import { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useOutletContext } from 'react-router-dom';
+import { useDashboardContext } from '../providers/useDashboardContext';
+import { requireAuth } from '../utils/requireAuth';
+import customFetch from '../utils/customFetch';
 
 type AllConditionsProps = {
   searchResults: Conditions[];
@@ -14,15 +17,33 @@ export const AllConditions: React.FC<AllConditionsProps> = ({
   searchResults,
   setSearchResults,
 }) => {
-  const { conditions } = useConditions();
-  /* const [searchResults, setSearchResults] = useState<Conditions[]>([]); */
+  /* const { conditions } = useConditions(); */
+  const { conditions, refetchConditions, setConditions } =
+    useDashboardContext();
+  /*  const [searchResults, setSearchResults] = useState<Conditions[]>([]); */
 
   useEffect(() => {
-    if (conditions !== null) {
-      setSearchResults(conditions);
-    }
-  }, []);
+    const updateConditions = async () => {
+      try {
+        const fetchUpdatedConditions = await customFetch.get('/conditions');
 
+        setConditions((prevConditions) => fetchUpdatedConditions.data);
+        setSearchResults((prevResults) => fetchUpdatedConditions.data);
+      } catch (error) {
+        console.log(error);
+        return null;
+      }
+    };
+    updateConditions();
+  }, [setConditions, setSearchResults]);
+  /*  useEffect(() => {
+    const fetchData = async () => {
+      await refetchConditions();
+      setSearchResults(refetchConditions());
+    };
+
+    fetchData();
+  }, [setSearchResults, refetchConditions]); */
   return (
     <>
       <h2 className="conditions-title">Conditions</h2>
@@ -31,6 +52,7 @@ export const AllConditions: React.FC<AllConditionsProps> = ({
       </Link>
       <SearchConditions setSearchResults={setSearchResults} />
 
+      {/* <ConditionsContainer searchResults={searchResults} setSearchResults ={setSearchResults} /> */}
       <ConditionsContainer searchResults={searchResults} />
     </>
   );

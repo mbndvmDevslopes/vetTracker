@@ -21,24 +21,7 @@ type TCurrentUserProviderTypes = {
 export const CurrentUserContext = createContext<TCurrentUserProviderTypes>(
   {} as TCurrentUserProviderTypes
 );
-/* const api = axios.create();
 
-api.interceptors.response.use(
-  (response) => response,
-  async (error) => {
-    const navigate = useNavigate();
-
-    if (error.response?.status === 401) {
-      // Unauthorized (token expired or invalid)
-      // Redirect to the login page
-      await customFetch.get('/auth/logout');
-      toast.success('Logout Successful');
-      navigate('/');
-    }
-
-    return Promise.reject(error);
-  }
-); */
 export const CurrentUserProvider: React.FC<{ children: ReactNode }> = () => {
   /*  const [user, setUser] = useState<User | null>(() => {
     const savedUser = localStorage.getItem('user');
@@ -97,6 +80,7 @@ export const CurrentUserProvider: React.FC<{ children: ReactNode }> = () => {
     } catch (error) {
       /* await customFetch.get('/auth/logout');
       toast.success('Logout Successful'); */
+      setUser(null);
       navigate('/');
     }
   };

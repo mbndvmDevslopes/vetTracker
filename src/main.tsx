@@ -11,10 +11,11 @@ import { ConditionsProvider } from './providers/ConditionsProvider.tsx';
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     {/* <CurrentUserProvider> */}
-    <ConditionsProvider>
-      <App />
-      <ToastContainer position="top-center" />
-    </ConditionsProvider>
+    {/* <ConditionsProvider> */}
+    <App />
+    <ToastContainer position="top-center" />
+    {/*     </ConditionsProvider>
+     */}{' '}
     {/* </CurrentUserProvider> */}
   </React.StrictMode>
 );

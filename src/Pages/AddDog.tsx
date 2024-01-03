@@ -1,24 +1,23 @@
 import { useState, FormEvent, useEffect } from 'react';
-import { redirect, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Wrapper from '../assets/Wrappers/DashboardFormPage';
 import { toast } from 'react-toastify';
 import { validateWeight } from '../utils/validation';
 import { SubmitBtn } from '../Components/SubmitBtn';
 
-import { useConditions } from '../providers/useConditions';
 import { FormRowControlledInput } from '../Components/FormRowControlledInput';
 import { capitalize } from '../utils/transformations';
 import customFetch from '../utils/customFetch';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
-import { refetchUser } from '../utils/checkAuth';
+import { useDashboardContext } from '../providers/useDashboardContext';
 
 dayjs.extend(utc);
 
 const AddDog = () => {
   /* 
   const { user } = useCurrentUser(); */
-  const { conditions } = useConditions();
+  const { conditions } = useDashboardContext();
 
   const [newDog, setNewDog] = useState({
     sex: 'F',
@@ -34,6 +33,21 @@ const AddDog = () => {
   });
   const [selectedConditions, setSelectedConditions] = useState<string[]>([]);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { data } = await customFetch.get('/user/current-user');
+        const pageUser = data.loggedInUserWithoutPassword;
+
+        console.log(pageUser); // Handle the data as needed
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>

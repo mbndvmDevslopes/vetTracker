@@ -1,11 +1,12 @@
 import { useDashboardContext } from '../providers/useDashboardContext';
 import { useCurrentUser } from '../providers/useCurrentUser';
 import { links } from '../utils/links';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useOutletContext } from 'react-router-dom';
 
 function NavLinks({ isBigSidebar }: { isBigSidebar?: boolean }) {
   const { toggleSidebar } = useDashboardContext();
   const { user } = useCurrentUser();
+  /*  const { user } = useOutletContext(); */
   if (!user) {
     // You can render a loading state or simply return null if user is not available yet
     return null;

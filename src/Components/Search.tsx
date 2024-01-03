@@ -6,14 +6,14 @@ import { DogType } from '../Types';
 import { useAllDogsContext } from '../providers/useAllDogs';
 
 const Search = () => {
-  const { setSearchResults, allDogs } = useAllDogsContext();
+  const { setSearchDogResults, allDogs } = useAllDogsContext();
 
   const handleSearch = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const searchTerm = e.target.value.toLowerCase();
 
-    if (!e.target.value) return setSearchResults(allDogs as DogType[]);
+    if (!e.target.value) return setSearchDogResults(allDogs as DogType[]);
     const filteredDogs = allDogs?.filter(
       (dog: DogType) =>
         dog.name.toLowerCase().includes(searchTerm) ||
@@ -21,8 +21,7 @@ const Search = () => {
         dog.breed.toLowerCase().includes(searchTerm) ||
         dog.ownerName.toLowerCase().includes(searchTerm)
     );
-    setSearchResults(filteredDogs as DogType[]);
-    console.log(filteredDogs);
+    setSearchDogResults(filteredDogs as DogType[]);
   };
 
   return (

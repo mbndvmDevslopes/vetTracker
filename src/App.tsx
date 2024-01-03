@@ -25,12 +25,16 @@ import { DogsContainer } from './Components/DogsContainer';
 import { checkDefaultTheme } from './utils/CheckDefaultTheme';
 import { CurrentUserProvider } from './providers/CurrentUserProvider';
 import AuthRequired from './Components/AuthRequired';
+import { ConditionsProvider } from './providers/ConditionsProvider';
 
 checkDefaultTheme();
 
 function App() {
   const [searchResults, setSearchResults] = useState<Conditions[]>([]);
   const router = createBrowserRouter([
+    {
+      element: <ConditionsProvider children={undefined} />,
+    },
     {
       element: <CurrentUserProvider children={undefined} />,
       children: [
@@ -53,47 +57,42 @@ function App() {
               path: 'login',
               element: <Login />,
             },
+
             {
-              element: <AuthRequired />,
+              path: 'dashboard',
+              element: <DashboardLayout />,
 
               children: [
                 {
-                  path: 'dashboard',
-                  element: <DashboardLayout />,
-
-                  children: [
-                    {
-                      index: true,
-                      element: <AddDog />,
-                    },
-                    {
-                      path: 'all-dogs',
-                      element: <AllDogs children={<DogsContainer />} />,
-                    },
-
-                    {
-                      path: 'profile',
-                      element: <Profile />,
-                    },
-                    { path: 'admin', element: <Admin /> },
-                    {
-                      path: 'all-conditions',
-                      element: (
-                        <AllConditions
-                          searchResults={searchResults}
-                          setSearchResults={setSearchResults}
-                        />
-                      ),
-                    },
-                    {
-                      path: 'edit-dog/:id',
-                      element: <EditDog />,
-                      action: editDogAction,
-                      loader: editDogLoader,
-                    },
-                    { path: 'add-condition', element: <AddCondition /> },
-                  ],
+                  index: true,
+                  element: <AddDog />,
                 },
+                {
+                  path: 'all-dogs',
+                  element: <AllDogs children={<DogsContainer />} />,
+                },
+
+                {
+                  path: 'profile',
+                  element: <Profile />,
+                },
+                { path: 'admin', element: <Admin /> },
+                {
+                  path: 'all-conditions',
+                  element: (
+                    <AllConditions
+                      searchResults={searchResults}
+                      setSearchResults={setSearchResults}
+                    />
+                  ),
+                },
+                {
+                  path: 'edit-dog/:id',
+                  element: <EditDog />,
+                  action: editDogAction,
+                  loader: editDogLoader,
+                },
+                { path: 'add-condition', element: <AddCondition /> },
               ],
             },
           ],

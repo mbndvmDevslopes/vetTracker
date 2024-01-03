@@ -11,8 +11,8 @@ import customFetch from '../utils/customFetch';
 type TAllDogsProviderTypes = {
   setAllDogs: React.Dispatch<React.SetStateAction<DogType[]>>;
   allDogs: DogType[] | undefined;
-  setSearchResults: React.Dispatch<React.SetStateAction<DogType[]>>;
-  searchResults: DogType[] | undefined;
+  setSearchDogResults: React.Dispatch<React.SetStateAction<DogType[]>>;
+  searchDogResults: DogType[] | undefined;
   setDogFilter: (dogId: string) => void;
   /* reFetchAllDogs: (id: string) => void; */
   reFetchAllDogs: () => void;
@@ -25,14 +25,15 @@ export const AllDogsContext = createContext<TAllDogsProviderTypes>(
 export const AllDogs: React.FC<{ children: ReactNode }> = () => {
   /*  const { data } = useLoaderData(); */
   const { user, setIsLoading } = useCurrentUser();
+  /* const { user, setIsLoading } = useOutletContext(); */
   const [allDogs, setAllDogs] = useState<DogType[]>([]);
-  const [searchResults, setSearchResults] = useState<DogType[]>([]);
+  const [searchDogResults, setSearchDogResults] = useState<DogType[]>([]);
 
   const reFetchAllDogs = async () => {
     try {
       const fetchOneVetsDogs = await customFetch.get('/dogs');
       setAllDogs(fetchOneVetsDogs.data);
-      setSearchResults(fetchOneVetsDogs.data);
+      setSearchDogResults(fetchOneVetsDogs.data);
       return fetchOneVetsDogs;
     } catch (error) {
       if (error instanceof AxiosError && error.response) {
@@ -46,7 +47,7 @@ export const AllDogs: React.FC<{ children: ReactNode }> = () => {
       try {
         const fetchOneVetsDogs = await customFetch.get('/dogs');
         setAllDogs(fetchOneVetsDogs.data);
-        setSearchResults(fetchOneVetsDogs.data);
+        setSearchDogResults(fetchOneVetsDogs.data);
         setIsLoading(false);
       } catch (error) {
         toast.error("Error fetching user's dogs");
@@ -70,8 +71,8 @@ export const AllDogs: React.FC<{ children: ReactNode }> = () => {
         allDogs,
         setAllDogs,
         setDogFilter,
-        searchResults,
-        setSearchResults,
+        searchDogResults,
+        setSearchDogResults,
         reFetchAllDogs,
       }}
     >

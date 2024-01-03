@@ -33,6 +33,7 @@ const Wrapper = styled.section`
   }
   .main-img {
     display: none;
+    border-radius: 25%;
   }
   .btn {
     padding: 0.75rem 1rem;

@@ -1,4 +1,4 @@
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { useConditions } from '../providers/useConditions';
 import { FormRowControlledInput } from '../Components/FormRowControlledInput';
 import { toast } from 'react-toastify';
@@ -7,9 +7,11 @@ import { Conditions } from '../Types';
 import { capitalize } from '../utils/transformations';
 import { useNavigate } from 'react-router-dom';
 import customFetch from '../utils/customFetch';
+import { useDashboardContext } from '../providers/useDashboardContext';
 
 export const AddCondition = () => {
-  const { conditions, refetchConditions } = useConditions();
+  /*   const { conditions, refetchConditions } = useConditions(); */
+  const { conditions, refetchConditions } = useDashboardContext();
   const [newCondition, setNewCondition] = useState<Omit<Conditions, 'id'>>({
     conditionName: '',
   });
@@ -36,6 +38,10 @@ export const AddCondition = () => {
     });
   };
 
+  useEffect(() => {
+    refetchConditions();
+  }, []);
+
   const createNewCondition = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const existingCondition = checkIfConditionExists();
@@ -44,21 +50,13 @@ export const AddCondition = () => {
       return;
     }
     try {
-      /*  const response = await axios.post('http://localhost:3000/conditions', {
-        conditionName: newCondition.conditionName,
-        /* isActive: true, */
-      /*
-      });
-
-      await Promise.resolve(response.data); */
-      console.log(newCondition.conditionName);
       await customFetch.post('/conditions', {
         conditionName: newCondition.conditionName,
       });
 
       toast.success('Condition added successfully');
 
-      refetchConditions();
+      await refetchConditions();
       navigate('/dashboard/all-conditions');
 
       /* return response; */

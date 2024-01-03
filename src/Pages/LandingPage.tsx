@@ -1,6 +1,7 @@
 import Wrapper from '../assets/Wrappers/Landing';
 import Logo from '../Components/Logo';
 import { Link } from 'react-router-dom';
+import main from '../assets/images/toby.png';
 
 const Landing = () => {
   return (
@@ -21,6 +22,7 @@ const Landing = () => {
             Login
           </Link>
         </div>
+        <img src={main} alt="main image" className="img main-img" />
       </div>
     </Wrapper>
   );

@@ -28,7 +28,7 @@ export const Condition = ({
     try {
       console.log('Before update:', conditions);
       await customFetch.delete(`/conditions/${id}`);
-
+      await refetchConditions();
       /* const updatedConditionsData = await customFetch.get('/conditions');
       const updatedConditions = updatedConditionsData.data;
       console.log('After update:', updatedConditions);
@@ -47,19 +47,17 @@ export const Condition = ({
   useEffect(() => {
     refetchConditions();
   }, []);
-
   const handleDeleteCondition = async () => {
-    const response = await customFetch.get(`/checkUsage/${id}`);
-    if (response.data.conditionInUse) {
-      toast.error('Condition is in use and cannot be deleted.');
-      return;
-    }
     try {
-      await deleteCondition();
+      const response = await customFetch.get(`/checkUsage/${id}`);
+      if (response.data.conditionInUse) {
+        toast.error('Condition is in use and cannot be deleted.');
+      } else {
+        await deleteCondition();
 
-      toast.success('Condition deleted successfully.');
-      await refetchConditions();
-      navigate('/dashboard/all-dogs');
+        toast.success('Condition deleted successfully.');
+        redirect('/dashboard/all-conditions');
+      }
     } catch (error) {
       console.error(error);
       return;
