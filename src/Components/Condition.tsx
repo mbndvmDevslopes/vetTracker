@@ -19,29 +19,18 @@ export const Condition = ({
   id: string;
   conditionName: string;
 }) => {
-  /*  const { refetchConditions } = useConditions(); */
-  const { refetchConditions, setConditions, conditions } =
-    useDashboardContext();
+  const { refetchConditions, conditions } = useDashboardContext();
   const navigate = useNavigate();
 
   const deleteCondition = async () => {
     try {
       console.log('Before update:', conditions);
       await customFetch.delete(`/conditions/${id}`);
-
-      /* const updatedConditionsData = await customFetch.get('/conditions');
-      const updatedConditions = updatedConditionsData.data;
-      console.log('After update:', updatedConditions);
-     
-      setConditions(updatedConditions);
- */
       toast.success('Condition deleted successfully.');
     } catch (error) {
       if (error instanceof AxiosError && error.response) {
         toast.error(error?.response?.data?.msg);
       }
-    } finally {
-      /* setConditions(conditions); */
     }
   };
   useEffect(() => {
@@ -59,7 +48,7 @@ export const Condition = ({
 
       toast.success('Condition deleted successfully.');
       await refetchConditions();
-      navigate('/dashboard/all-dogs');
+      navigate('/dashboard/all-conditions');
     } catch (error) {
       console.error(error);
       return;

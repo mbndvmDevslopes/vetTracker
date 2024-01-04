@@ -5,7 +5,6 @@ import { Conditions } from '../Types';
 import { useEffect } from 'react';
 import { Link, useOutletContext } from 'react-router-dom';
 import { useDashboardContext } from '../providers/useDashboardContext';
-import { requireAuth } from '../utils/requireAuth';
 import customFetch from '../utils/customFetch';
 
 type AllConditionsProps = {
@@ -17,12 +16,11 @@ export const AllConditions: React.FC<AllConditionsProps> = ({
   searchResults,
   setSearchResults,
 }) => {
-  /* const { conditions } = useConditions(); */
-  const { conditions, refetchConditions, setConditions } =
-    useDashboardContext();
-  /*  const [searchResults, setSearchResults] = useState<Conditions[]>([]); */
-
+  const { conditions } = useDashboardContext();
   useEffect(() => {
+    if (conditions !== null) setSearchResults(conditions);
+  }, [conditions]);
+  /*  useEffect(() => {
     const updateConditions = async () => {
       try {
         const fetchUpdatedConditions = await customFetch.get('/conditions');
@@ -35,7 +33,7 @@ export const AllConditions: React.FC<AllConditionsProps> = ({
       }
     };
     updateConditions();
-  }, [setConditions, setSearchResults]);
+  }, [setConditions, setSearchResults]); */
   /*  useEffect(() => {
     const fetchData = async () => {
       await refetchConditions();
