@@ -14,7 +14,6 @@ const getExistingDogsConditions = async (id: string) => {
 export const loader: LoaderFunction = async ({ params }) => {
   try {
     const { data } = await customFetch.get(`/dogs/${params.id}`);
-    /* const dog: DogType = data[0]; */
     const dog = data.dog;
     const existingConditions = await getExistingDogsConditions(data.dog.id);
     const dogData = {
