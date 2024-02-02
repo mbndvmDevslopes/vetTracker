@@ -1,12 +1,6 @@
-import {
-  Link,
-  redirect,
-  useNavigate,
-  useOutletContext,
-} from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Wrapper from '../assets/Wrappers/Condition';
 import { toast } from 'react-toastify';
-import { useConditions } from '../providers/useConditions';
 import customFetch from '../utils/customFetch';
 import { AxiosError } from 'axios';
 import { useDashboardContext } from '../providers/useDashboardContext';
@@ -19,12 +13,11 @@ export const Condition = ({
   id: string;
   conditionName: string;
 }) => {
-  const { refetchConditions, conditions } = useDashboardContext();
+  const { refetchConditions } = useDashboardContext();
   const navigate = useNavigate();
 
   const deleteCondition = async () => {
     try {
-      console.log('Before update:', conditions);
       await customFetch.delete(`/conditions/${id}`);
       toast.success('Condition deleted successfully.');
     } catch (error) {
@@ -52,8 +45,6 @@ export const Condition = ({
     } catch (error) {
       console.error(error);
       return;
-    } finally {
-      console.log('conditions from condition', conditions);
     }
   };
 

@@ -30,7 +30,6 @@ export const DashboardContext = createContext<TDashboardProvider>(
 const DashboardLayout = () => {
   const navigate = useNavigate();
   const { user, setUser, getCurrentUser } = useCurrentUser();
-  /*   const { setConditions, conditions } = useConditions(); */
   const [conditions, setConditions] = useState<Conditions[] | null>(null);
 
   const [showSidebar, setShowSidebar] = useState<boolean>(false);
@@ -48,20 +47,6 @@ const DashboardLayout = () => {
       return Promise.reject(error);
     }
   );
-  /*   useEffect(() => {
-    const fetchUser = async () => {
-      const currentUser = await getCurrentUser();
-      console.log('current user', currentUser);
-
-      if (!currentUser) {
-        setUser(null);
-        redirect('/');
-      }
-    };
-    fetchUser();
-
-    refetchConditions();
-  }, []); */
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -81,14 +66,10 @@ const DashboardLayout = () => {
     localStorage.setItem('darkTheme', darkThemeString);
   };
 
-  /*  const { user } = useCurrentUser(); */
-
   const refetchConditions = async () => {
     try {
       const fetchAllConditions = await customFetch.get('/conditions');
       setConditions(fetchAllConditions.data);
-      console.log(fetchAllConditions.data, 'fetchallcond data');
-      /* return conditions; */
     } catch (error) {
       if (error instanceof AxiosError && error.response) {
         toast.error(error?.response?.data?.msg);
@@ -135,7 +116,6 @@ const DashboardLayout = () => {
             <Navbar />
             <div className="dashboard-page">
               <Outlet />
-              {/*  <Outlet context={{ user }} /> */}
             </div>
           </div>
         </main>

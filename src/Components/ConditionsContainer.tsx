@@ -1,10 +1,7 @@
 import Wrapper from '../assets/Wrappers/DogsContainer';
 
-import { useConditions } from '../providers/useConditions';
 import { Condition } from './Condition';
 import { Conditions } from '../Types';
-import { useOutletContext } from 'react-router-dom';
-import { useDashboardContext } from '../providers/useDashboardContext';
 import { useEffect } from 'react';
 
 export const ConditionsContainer = ({
@@ -12,13 +9,7 @@ export const ConditionsContainer = ({
 }: {
   searchResults: Conditions[];
 }) => {
-  /*  const { conditions } = useConditions(); 
-  const { conditions } = useDashboardContext();*/
-
-  /*   if (conditions?.length === 0) { */
-  useEffect(() => {
-    console.log('Received searchResults:', searchResults);
-  }, [searchResults]);
+  useEffect(() => {}, [searchResults]);
   if (searchResults?.length === 0) {
     return (
       <Wrapper>
@@ -29,8 +20,6 @@ export const ConditionsContainer = ({
   return (
     <Wrapper>
       <div className="dogs">
-        {/* {conditions?.map((condition) => ( */}
-
         {searchResults?.map((condition) => (
           <Condition key={condition.id} {...condition} />
         ))}

@@ -18,6 +18,7 @@ export type User = {
   lastName: string;
   email: string;
   password: string;
+  role: string;
 };
 
 export type DogsConditions = {
@@ -28,4 +29,11 @@ export type DogsConditions = {
 export type Conditions = {
   id: string;
   conditionName: string;
+};
+
+export type AllUsers = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  role: string;
 };

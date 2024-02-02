@@ -24,7 +24,6 @@ import { Conditions } from './Types';
 import { DogsContainer } from './Components/DogsContainer';
 import { checkDefaultTheme } from './utils/CheckDefaultTheme';
 import { CurrentUserProvider } from './providers/CurrentUserProvider';
-import AuthRequired from './Components/AuthRequired';
 import { ConditionsProvider } from './providers/ConditionsProvider';
 
 checkDefaultTheme();

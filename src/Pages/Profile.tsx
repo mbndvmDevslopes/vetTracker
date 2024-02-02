@@ -1,6 +1,6 @@
 import { FormRowControlledInput } from '../Components/FormRowControlledInput';
 import Wrapper from '../assets/Wrappers/DashboardFormPage';
-import { useNavigation, useOutletContext } from 'react-router-dom';
+import { useNavigation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useCurrentUser } from '../providers/useCurrentUser';
 import { FormEvent, useState } from 'react';
@@ -14,9 +14,7 @@ type AmendedUser = {
   email: string;
 };
 export const Profile: React.FC = () => {
-  /* const { userData } = useOutletContext(); */
   const { user, refetchUser } = useCurrentUser();
-  /* const { user, setIsLoading } = useOutletContext(); */
 
   const navigation = useNavigation();
   const isSubmitting = navigation.state === 'submitting';
@@ -42,14 +40,12 @@ export const Profile: React.FC = () => {
   };
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    /* const id = user?.id; */
     try {
       await customFetch.patch('/user/update-user', amendedUser);
 
       refetchUser();
       return toast.success('Profile updated successfully');
     } catch (error) {
-      /*  toast.error('There was an error updating the profile'); */
       if (error instanceof AxiosError && error.response) {
         toast.error(error?.response?.data?.msg);
       }

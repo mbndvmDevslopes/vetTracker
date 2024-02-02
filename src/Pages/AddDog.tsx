@@ -15,8 +15,6 @@ import { useDashboardContext } from '../providers/useDashboardContext';
 dayjs.extend(utc);
 
 const AddDog = () => {
-  /* 
-  const { user } = useCurrentUser(); */
   const { conditions } = useDashboardContext();
 
   const [newDog, setNewDog] = useState({
@@ -33,21 +31,6 @@ const AddDog = () => {
   });
   const [selectedConditions, setSelectedConditions] = useState<string[]>([]);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const { data } = await customFetch.get('/user/current-user');
-        const pageUser = data.loggedInUserWithoutPassword;
-
-        console.log(pageUser); // Handle the data as needed
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchData();
-  }, []);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>

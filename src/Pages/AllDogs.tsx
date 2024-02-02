@@ -14,7 +14,6 @@ type TAllDogsProviderTypes = {
   setSearchDogResults: React.Dispatch<React.SetStateAction<DogType[]>>;
   searchDogResults: DogType[] | undefined;
   setDogFilter: (dogId: string) => void;
-  /* reFetchAllDogs: (id: string) => void; */
   reFetchAllDogs: () => void;
 };
 
@@ -23,9 +22,7 @@ export const AllDogsContext = createContext<TAllDogsProviderTypes>(
 );
 
 export const AllDogs: React.FC<{ children: ReactNode }> = () => {
-  /*  const { data } = useLoaderData(); */
   const { user, setIsLoading } = useCurrentUser();
-  /* const { user, setIsLoading } = useOutletContext(); */
   const [allDogs, setAllDogs] = useState<DogType[]>([]);
   const [searchDogResults, setSearchDogResults] = useState<DogType[]>([]);
 
@@ -60,7 +57,6 @@ export const AllDogs: React.FC<{ children: ReactNode }> = () => {
   }, [user]);
 
   const setDogFilter = (dogId: string) => {
-    // Filter out the dog with the specified ID from the current list of dogs
     const filteredDogs = allDogs.filter((dog) => dog.id !== dogId);
     setAllDogs(filteredDogs);
   };

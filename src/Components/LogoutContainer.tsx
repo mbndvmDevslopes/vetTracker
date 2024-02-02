@@ -3,13 +3,11 @@ import { FaUserCircle, FaCaretDown } from 'react-icons/fa';
 import Wrapper from '../assets/Wrappers/LogoutContainer';
 import { useDashboardContext } from '../providers/useDashboardContext';
 import { useCurrentUser } from '../providers/useCurrentUser';
-import { useOutlet } from 'react-router-dom';
 
 export const LogoutContainer = () => {
   const [showLogout, setShowLogout] = useState(false);
   const { logoutUser } = useDashboardContext();
   const { user } = useCurrentUser();
-  /* const { user } = useOutlet(); */
   return (
     <Wrapper>
       <button

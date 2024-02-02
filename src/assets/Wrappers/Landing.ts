@@ -27,6 +27,7 @@ const Wrapper = styled.section`
     color: var(--text-secondary-color);
     margin-bottom: 1.5rem;
     max-width: 35em;
+    margin-left: 3.5rem;
   }
   .register-link {
     margin-right: 1rem;
@@ -38,6 +39,7 @@ const Wrapper = styled.section`
   .btn {
     padding: 0.75rem 1rem;
   }
+
   @media (min-width: 992px) {
     .page {
       grid-template-columns: 1fr 400px;
@@ -45,6 +47,11 @@ const Wrapper = styled.section`
     }
     .main-img {
       display: block;
+    }
+    .logo {
+      margin-top: 4.5rem;
+      width: 250px;
+      height: 250px;
     }
   }
 `;

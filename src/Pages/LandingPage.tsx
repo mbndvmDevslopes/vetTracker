@@ -1,7 +1,7 @@
 import Wrapper from '../assets/Wrappers/Landing';
 import Logo from '../Components/Logo';
 import { Link } from 'react-router-dom';
-import main from '../assets/images/toby.png';
+import main from '../assets/images/dog.jpg';
 
 const Landing = () => {
   return (

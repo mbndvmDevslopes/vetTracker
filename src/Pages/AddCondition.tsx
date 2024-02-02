@@ -1,8 +1,6 @@
 import { FormEvent, useEffect, useState } from 'react';
-import { useConditions } from '../providers/useConditions';
 import { FormRowControlledInput } from '../Components/FormRowControlledInput';
 import { toast } from 'react-toastify';
-import axios from 'axios';
 import { Conditions } from '../Types';
 import { capitalize } from '../utils/transformations';
 import { useNavigate } from 'react-router-dom';
@@ -10,7 +8,6 @@ import customFetch from '../utils/customFetch';
 import { useDashboardContext } from '../providers/useDashboardContext';
 
 export const AddCondition = () => {
-  /*   const { conditions, refetchConditions } = useConditions(); */
   const { conditions, refetchConditions } = useDashboardContext();
   const [newCondition, setNewCondition] = useState<Omit<Conditions, 'id'>>({
     conditionName: '',
@@ -58,8 +55,6 @@ export const AddCondition = () => {
 
       await refetchConditions();
       navigate('/dashboard/all-conditions');
-
-      /* return response; */
     } catch (error) {
       toast.error('Error adding condition');
     }
