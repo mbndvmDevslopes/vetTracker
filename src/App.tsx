@@ -33,6 +33,7 @@ function App() {
   const router = createBrowserRouter([
     {
       element: <ConditionsProvider children={undefined} />,
+      errorElement: <Error />,
     },
     {
       element: <CurrentUserProvider children={undefined} />,
@@ -41,7 +42,7 @@ function App() {
           path: '/',
 
           element: <Home />,
-          errorElement: <Error />,
+
           children: [
             {
               index: true,

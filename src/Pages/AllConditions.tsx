@@ -1,9 +1,9 @@
 import { ConditionsContainer } from '../Components/ConditionsContainer';
 import SearchConditions from '../Components/SearchConditions';
 import { Conditions } from '../Types';
-import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useDashboardContext } from '../providers/useDashboardContext';
+import { useEffect } from 'react';
 
 type AllConditionsProps = {
   searchResults: Conditions[];
@@ -14,10 +14,10 @@ export const AllConditions: React.FC<AllConditionsProps> = ({
   searchResults,
   setSearchResults,
 }) => {
-  /*  useEffect(() => {
+  const { conditions } = useDashboardContext();
+  useEffect(() => {
     if (conditions !== null) setSearchResults(conditions);
-  }, [conditions]); */
-
+  }, [conditions]);
   return (
     <>
       <h2 className="conditions-title">Conditions</h2>

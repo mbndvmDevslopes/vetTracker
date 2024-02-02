@@ -2,9 +2,12 @@ import { useRouteError, Link } from 'react-router-dom';
 import Wrapper from '../assets/Wrappers/Error';
 import image from '../assets/images/404-error-with-landscape-concept-illustration_114360-7898.avif';
 
+type ErrorObject = {
+  status?: number;
+};
+
 const Error = () => {
-  const error: { status?: number } = useRouteError() ?? {};
-  console.log(error);
+  const error: { status?: number } = useRouteError() as ErrorObject;
   if (error.status === 404) {
     return (
       <Wrapper>
