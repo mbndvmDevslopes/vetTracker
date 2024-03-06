@@ -21,11 +21,12 @@ const AddDog = () => {
     sex: 'F',
     name: 'Fido',
     breed: 'Poodle',
-    birthDate: '',
+    // birthDate: '',
+    birthDate: new Date(),
     weight: 0,
     dateVisited: '',
     notes: '',
-
+    updatedAt: new Date(),
     isActive: true,
     ownerName: '',
   });
@@ -37,9 +38,11 @@ const AddDog = () => {
   ) => {
     if (e.target.type === 'text') {
       setNewDog({ ...newDog, [e.target.name]: capitalize(e.target.value) });
-      return;
+    } else if (e.target.type === 'number') {
+      setNewDog({ ...newDog, [e.target.name]: parseFloat(e.target.value) });
+    } else {
+      setNewDog({ ...newDog, [e.target.name]: e.target.value });
     }
-    setNewDog({ ...newDog, [e.target.name]: e.target.value });
   };
   const handleMultiselectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedOptions = Array.from(
