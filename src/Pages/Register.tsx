@@ -17,21 +17,16 @@ const Register = () => {
           type="text"
           name="firstName"
           labelText=" First Name"
-          defaultValue="John"
+          defaultValue=""
         />
         <FormRow
           type="text"
           name="lastName"
           labelText="Last Name"
-          defaultValue="Smith"
+          defaultValue=""
         />
 
-        <FormRow
-          name="email"
-          type="email"
-          labelText="email"
-          defaultValue="john@gmail.com"
-        />
+        <FormRow name="email" type="email" labelText="email" defaultValue="" />
         <FormRow
           name="password"
           type="password"
