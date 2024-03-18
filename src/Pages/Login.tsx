@@ -7,6 +7,12 @@ import { FormRowControlledInput } from '../Components/FormRowControlledInput';
 import { toast } from 'react-toastify';
 import customFetch from '../utils/customFetch';
 import { AxiosError } from 'axios';
+import { z } from 'zod';
+
+const LoginFormSchema = z.object({
+  email: z.string().email('Invalid email address'),
+  password: z.string(),
+});
 
 export const Login = () => {
   const { isLoading, setIsLoading } = useCurrentUser();
@@ -21,7 +27,7 @@ export const Login = () => {
     try {
       await customFetch.post('/auth/login', userLoginData);
       toast.success('Login Successful');
-
+      setIsLoading(false);
       navigate('/dashboard');
     } catch (error) {
       if (error instanceof AxiosError && error.response) {
@@ -34,12 +40,17 @@ export const Login = () => {
     setUserLoginData({ ...userLoginData, [e.target.name]: e.target.value });
   };
 
-  const handleLoginSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleLoginSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    loginUser();
+    try {
+      LoginFormSchema.parse(userLoginData);
+      await loginUser();
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        toast.error(error.errors[0]?.message);
+      }
+    }
   };
-
   return (
     <Wrapper>
       <form className="form" onSubmit={handleLoginSubmit}>

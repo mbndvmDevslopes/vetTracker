@@ -15,7 +15,7 @@ import DashboardLayout from './Pages/DashboardLayout';
 import { AllConditions } from './Pages/AllConditions';
 import { EditDog } from './Pages/EditDog';
 
-import { action as registerAction } from './Actions.Loaders/registerAction';
+
 import { action as editDogAction } from './Actions.Loaders/editDogActions';
 import { loader as editDogLoader } from './Actions.Loaders/editDogLoader';
 import { AddCondition } from './Pages/AddCondition';
@@ -24,7 +24,6 @@ import { Conditions } from './Types';
 import { DogsContainer } from './Components/DogsContainer';
 import { checkDefaultTheme } from './utils/CheckDefaultTheme';
 import { CurrentUserProvider } from './providers/CurrentUserProvider';
-import { ConditionsProvider } from './providers/ConditionsProvider';
 
 checkDefaultTheme();
 
@@ -32,11 +31,8 @@ function App() {
   const [searchResults, setSearchResults] = useState<Conditions[]>([]);
   const router = createBrowserRouter([
     {
-      element: <ConditionsProvider children={undefined} />,
-      errorElement: <Error />,
-    },
-    {
       element: <CurrentUserProvider children={undefined} />,
+      errorElement: <Error />,
       children: [
         {
           path: '/',
@@ -51,7 +47,6 @@ function App() {
             {
               path: 'register',
               element: <Register />,
-              action: registerAction,
             },
             {
               path: 'login',

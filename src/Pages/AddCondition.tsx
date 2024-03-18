@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { FormRowControlledInput } from '../Components/FormRowControlledInput';
 import { toast } from 'react-toastify';
 import { Conditions } from '../Types';
@@ -34,10 +34,6 @@ export const AddCondition = () => {
       [e.target.name]: capitalize(e.target.value),
     });
   };
-
-  useEffect(() => {
-    refetchConditions();
-  }, []);
 
   const createNewCondition = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
