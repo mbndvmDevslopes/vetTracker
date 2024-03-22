@@ -75,7 +75,7 @@ const Register = () => {
         <FormRowControlledInput
           name="email"
           type="email"
-          labelText="Name"
+          labelText="email"
           onChange={handleChange}
           value={registerData.email}
         />
