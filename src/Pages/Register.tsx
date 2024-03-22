@@ -45,7 +45,8 @@ const Register = () => {
       if (error instanceof z.ZodError) {
         error.errors.map((err) => toast.error(err.message));
       } else if (error instanceof AxiosError && error.response) {
-        toast.error(error.response.data.msg);
+        // toast.error(error.response.data.msg);
+        toast.error('email already exists.  please retry');
       }
       setIsSubmitting(false);
     }
